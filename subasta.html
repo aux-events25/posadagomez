@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Mountains+of+Christmas:wght@700&family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
   --pino:#0c3b29; --pino2:#0f4d32; --hoja:#2f9e62; --hoja2:#1f7a4d;
@@ -24,6 +24,12 @@ header{text-align:center;margin:4px 0 18px}
 header h1{font-family:"Mountains of Christmas",cursive;font-size:clamp(36px,7vw,54px);line-height:1;margin:0;text-shadow:0 3px 0 var(--rojo2)}
 header p{margin:6px 0 0;color:#cfe5d8}
 
+.cabecera{max-width:900px;margin:6px auto 22px}
+.titulo-nieve{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}
+#nieve{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.copo{position:absolute;top:-12px;color:#fff;opacity:.85;animation:nevar linear infinite}
+@keyframes nevar{to{transform:translate(var(--dx),105vh) rotate(360deg)}}
+.marco,.esferas{position:relative;z-index:1}
 .rejilla{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
 .tarjeta{position:relative;background:var(--nieve);color:var(--tinta);border-radius:20px;padding:26px 18px 18px;overflow:hidden;
   box-shadow:0 20px 36px -18px rgba(0,0,0,.6)}
@@ -88,6 +94,7 @@ input:focus-visible,button:focus-visible{outline:3px solid var(--oro);outline-of
 </style>
 </head>
 <body>
+<div id="nieve" aria-hidden="true"></div>
 <svg class="esferas" id="esferas" viewBox="0 0 900 96" aria-hidden="true"></svg>
 <main class="marco" id="app"><div class="bloqueo"><p>Cargando…</p></div></main>
 
@@ -99,6 +106,7 @@ var LLAVE = new URLSearchParams(location.hash.slice(1)).get('llave') ||
             new URLSearchParams(location.search).get('llave') || '';
 
 var datos = { jugadores: [], ventas: [] }, evento = '';
+var CABECERA = "<header class=\"cabecera\"><svg class=\"titulo-nieve\" viewBox=\"0 0 1100 150\" role=\"img\" aria-label=\"Subasta navideña\">\n  <defs>\n    <clipPath id=\"c-tit\"><text x=\"550\" y=\"110\" font-family=\"'Luckiest Guy',sans-serif\" font-size=\"100\" text-anchor=\"middle\" letter-spacing=\"4\">SUBASTA NAVIDEÑA</text></clipPath>\n    <linearGradient id=\"rojo-letra\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#e8283f\"/><stop offset=\"1\" stop-color=\"#a50e24\"/></linearGradient>\n    <linearGradient id=\"nieve-sombra\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#ffffff\"/><stop offset=\"1\" stop-color=\"#dbe9f3\"/></linearGradient>\n  </defs>\n  <g font-family=\"'Luckiest Guy',sans-serif\" text-anchor=\"middle\" font-size=\"100\" letter-spacing=\"4\">\n    <text x=\"550\" y=\"117\" fill=\"#5e0614\" stroke=\"#5e0614\" stroke-width=\"14\" stroke-linejoin=\"round\">SUBASTA NAVIDEÑA</text>\n    <text x=\"550\" y=\"110\" fill=\"#fff\" stroke=\"#fff\" stroke-width=\"12\" stroke-linejoin=\"round\">SUBASTA NAVIDEÑA</text>\n    <text x=\"550\" y=\"110\" fill=\"url(#rojo-letra)\">SUBASTA NAVIDEÑA</text>\n  </g>\n  <path clip-path=\"url(#c-tit)\" d=\"M-10 0 H1110 V60 Q1101.0 71.0 1092.0 60 Q1083.0 55.6 1074.0 60 Q1065.0 71.0 1056.0 60 Q1047.0 55.6 1038.0 60 Q1029.0 71.0 1020.0 60 Q1011.0 55.6 1002.0 60 Q993.0 71.0 984.0 60 Q975.0 55.6 966.0 60 Q957.0 71.0 948.0 60 Q939.0 55.6 930.0 60 Q921.0 71.0 912.0 60 Q903.0 55.6 894.0 60 Q885.0 71.0 876.0 60 Q867.0 55.6 858.0 60 Q849.0 71.0 840.0 60 Q831.0 55.6 822.0 60 Q813.0 71.0 804.0 60 Q795.0 55.6 786.0 60 Q777.0 71.0 768.0 60 Q759.0 55.6 750.0 60 Q741.0 71.0 732.0 60 Q723.0 55.6 714.0 60 Q705.0 71.0 696.0 60 Q687.0 55.6 678.0 60 Q669.0 71.0 660.0 60 Q651.0 55.6 642.0 60 Q633.0 71.0 624.0 60 Q615.0 55.6 606.0 60 Q597.0 71.0 588.0 60 Q579.0 55.6 570.0 60 Q561.0 71.0 552.0 60 Q543.0 55.6 534.0 60 Q525.0 71.0 516.0 60 Q507.0 55.6 498.0 60 Q489.0 71.0 480.0 60 Q471.0 55.6 462.0 60 Q453.0 71.0 444.0 60 Q435.0 55.6 426.0 60 Q417.0 71.0 408.0 60 Q399.0 55.6 390.0 60 Q381.0 71.0 372.0 60 Q363.0 55.6 354.0 60 Q345.0 71.0 336.0 60 Q327.0 55.6 318.0 60 Q309.0 71.0 300.0 60 Q291.0 55.6 282.0 60 Q273.0 71.0 264.0 60 Q255.0 55.6 246.0 60 Q237.0 71.0 228.0 60 Q219.0 55.6 210.0 60 Q201.0 71.0 192.0 60 Q183.0 55.6 174.0 60 Q165.0 71.0 156.0 60 Q147.0 55.6 138.0 60 Q129.0 71.0 120.0 60 Q111.0 55.6 102.0 60 Q93.0 71.0 84.0 60 Q75.0 55.6 66.0 60 Q57.0 71.0 48.0 60 Q39.0 55.6 30.0 60 Q21.0 71.0 12.0 60 Q3.0 55.6 -6.0 60 Q-15.0 71.0 -24.0 60 Z\" fill=\"url(#nieve-sombra)\"/>\n</svg></header>";
 var elegido = null, busqueda = '', confirmando = false, ocupado = false;
 var producto = '';
 try { producto = localStorage.getItem('subasta_producto') || ''; } catch (e) {}
@@ -137,7 +145,7 @@ function pintar(error) {
   var foco = document.activeElement && document.activeElement.id;
   var oferta = $('oferta') ? $('oferta').value : '';
   $('app').innerHTML =
-    '<header><h1>Subasta navideña</h1><p>' + esc(evento) + '</p></header>' +
+    CABECERA +
     '<div class="rejilla">' +
       '<section class="tarjeta">' +
         '<h2><span class="n">1</span>¿Qué se subasta?</h2>' +
@@ -295,8 +303,25 @@ function esferas() {
   svg.innerHTML = h;
 }
 
+function nieve() {
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var cont = $('nieve');
+  for (var i = 0; i < 45; i++) {
+    var c = document.createElement('div');
+    c.className = 'copo';
+    c.textContent = Math.random() < 0.4 ? '❄' : '•';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.fontSize = (8 + Math.random() * 14) + 'px';
+    c.style.setProperty('--dx', (Math.random() * 60 - 30) + 'px');
+    c.style.animationDuration = (8 + Math.random() * 8) + 's';
+    c.style.animationDelay = -(Math.random() * 16) + 's';
+    cont.appendChild(c);
+  }
+}
+
 /* ---------- Arranque ---------- */
 esferas();
+nieve();
 if (!LLAVE) bloqueado();
 else {
   llamar({ api: 'subasta' });
