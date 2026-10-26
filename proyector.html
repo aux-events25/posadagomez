@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Subasta navideña</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#0c3b29;cursor:none}
+body{background:radial-gradient(ellipse 90% 70% at 50% 20%,#1a6b47 0%,#0f4d32 50%,#0a3324 100%)}
+#escena{position:fixed;inset:0;width:100vw;height:100vh;display:block}
+#nieve{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.copo{position:absolute;top:-14px;color:#fff;opacity:.8;animation:nevar linear infinite}
+@keyframes nevar{to{transform:translate(var(--dx),105vh) rotate(360deg)}}
+
+.esfera{transform-box:view-box;animation:columpio 3.8s ease-in-out infinite}
+@keyframes columpio{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+.titulo{animation:respira 4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 50%}
+@keyframes respira{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+
+/* Santa subastador */
+.santa-cuerpo{animation:rebote 3.2s ease-in-out infinite}
+@keyframes rebote{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.mazo{transform-box:view-box;transform-origin:303px 156px;animation:martillazo 3.2s ease-in-out infinite}
+@keyframes martillazo{0%,60%{transform:rotate(-42deg)}74%{transform:rotate(-48deg)}80%{transform:rotate(3deg)}86%{transform:rotate(0)}100%{transform:rotate(-42deg)}}
+.golpe{opacity:0;animation:golpe 3.2s linear infinite}
+@keyframes golpe{0%,79%{opacity:0}80%,90%{opacity:1}100%{opacity:0}}
+.vendido{transform-box:fill-box;transform-origin:0% 100%;opacity:0;animation:vendido 6.4s ease-out infinite}
+@keyframes vendido{0%,37%{opacity:0;transform:scale(.4)}40%{opacity:1;transform:scale(1.08)}43%{transform:scale(1)}62%{opacity:1}68%,100%{opacity:0;transform:scale(1)}}
+
+/* Duendes */
+.duende{animation:rebote 1.4s ease-in-out infinite}
+.d2{animation-duration:1.8s}
+.duende-cabeza{transform-box:fill-box;transform-origin:50% 100%;animation:asiente 2.2s ease-in-out infinite}
+@keyframes asiente{0%,100%{transform:rotate(0)}30%{transform:rotate(-6deg)}60%{transform:rotate(4deg)}}
+.brazo-envuelve{transform-box:fill-box;transform-origin:0% 0%;animation:envuelve .7s ease-in-out infinite alternate}
+@keyframes envuelve{from{transform:rotate(-14deg)}to{transform:rotate(10deg)}}
+.duende-brazo{transform-box:fill-box;transform-origin:0% 10%;animation:lee 2.2s ease-in-out infinite}
+@keyframes lee{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(3deg)}}
+
+/* Regalo que se envuelve */
+.mono{transform-box:fill-box;transform-origin:50% 100%;animation:mono 4s ease-in-out infinite}
+@keyframes mono{0%,35%{transform:scale(0);opacity:0}45%{transform:scale(1.2);opacity:1}52%,92%{transform:scale(1);opacity:1}100%{transform:scale(0);opacity:0}}
+.papel{animation:papel 4s ease-in-out infinite}
+@keyframes papel{0%{opacity:0}10%,30%{opacity:1}40%,100%{opacity:0}}
+.brillo{transform-box:fill-box;transform-origin:50% 50%;animation:destello 4s ease-in-out infinite}
+@keyframes destello{0%,44%{opacity:0;transform:scale(.2) rotate(0)}52%{opacity:1;transform:scale(1) rotate(45deg)}64%,100%{opacity:0;transform:scale(.4) rotate(90deg)}}
+
+/* Banda transportadora */
+.rodillo{animation:gira 1s linear infinite;transform-box:fill-box;transform-origin:50% 50%}
+@keyframes gira{to{transform:rotate(360deg)}}
+.cinta-linea{stroke-dasharray:14 14;animation:cinta 1s linear infinite}
+@keyframes cinta{to{stroke-dashoffset:-28}}
+.viaja{animation:viaja 12s linear infinite}
+@keyframes viaja{0%{transform:translateX(0);opacity:0}6%{opacity:1}88%{opacity:1}100%{transform:translateX(290px);opacity:0}}
+
+.luz{animation:parpadeo 1.4s ease-in-out infinite}
+@keyframes parpadeo{0%,100%{opacity:1}50%{opacity:.3}}
+
+@media (prefers-reduced-motion:reduce){*{animation:none !important}#nieve{display:none}}
+</style>
+</head>
+<body>
+<svg id="escena" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img"
+  aria-label="Subasta navideña: Santa con su mazo de subastador, duendes envolviendo regalos y una banda con regalos">
+  <defs>
+    <clipPath id="c-tit"><text x="800" y="182" font-family="'Luckiest Guy',sans-serif" font-size="126" text-anchor="middle" letter-spacing="5">SUBASTA NAVIDEÑA</text></clipPath>
+    <linearGradient id="rojo-letra" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8283f"/><stop offset="1" stop-color="#a50e24"/></linearGradient>
+    <linearGradient id="nieve-sombra" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#dbe9f3"/></linearGradient>
+    <linearGradient id="madera" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a86b3c"/><stop offset="1" stop-color="#7d4a25"/></linearGradient>
+    <linearGradient id="piso" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6b4226"/><stop offset="1" stop-color="#4a2c18"/></linearGradient>
+    <pattern id="papel-rayas" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="14" height="14" fill="#2f9e62"/><rect width="5" height="14" fill="#fff"/>
+    </pattern>
+  </defs>
+
+  <!-- Guirnalda de luces de fondo -->
+  <path d="M0 300 Q400 340 800 300 T1600 300" stroke="#0a3324" stroke-width="3" fill="none" opacity=".6"/>
+  <g>
+    <circle class="luz" cx="120" cy="314" r="6" fill="#ff4d4d"/><circle class="luz" cx="260" cy="324" r="6" fill="#ffe08a" style="animation-delay:.3s"/>
+    <circle class="luz" cx="400" cy="320" r="6" fill="#7fd3ff" style="animation-delay:.6s"/><circle class="luz" cx="540" cy="312" r="6" fill="#2fd17a" style="animation-delay:.9s"/>
+    <circle class="luz" cx="1060" cy="312" r="6" fill="#ff4d4d" style="animation-delay:.2s"/><circle class="luz" cx="1200" cy="320" r="6" fill="#ffe08a" style="animation-delay:.5s"/>
+    <circle class="luz" cx="1340" cy="324" r="6" fill="#7fd3ff" style="animation-delay:.8s"/><circle class="luz" cx="1480" cy="314" r="6" fill="#2fd17a" style="animation-delay:1.1s"/>
+  </g>
+
+  <!-- Piso de madera -->
+  <rect x="-200" y="770" width="2000" height="200" fill="url(#piso)"/>
+  <rect x="-200" y="770" width="2000" height="6" fill="#8a5a36"/>
+  <path d="M-200 820 H1800 M-200 870 H1800" stroke="#3d2414" stroke-width="2" opacity=".5"/>
+  <path d="M120 776 V820 M420 820 V870 M700 776 V820 M980 820 V870 M1260 776 V820 M1520 820 V870 M260 870 V900 M860 870 V900 M1380 870 V900" stroke="#3d2414" stroke-width="2" opacity=".5"/>
+
+  <!-- Esferas colgantes -->
+  <g id="esferas"></g>
+
+  <!-- Título con nieve -->
+  <g class="titulo">
+    <g font-family="'Luckiest Guy',sans-serif" text-anchor="middle" font-size="126" letter-spacing="5">
+      <text x="800" y="190" fill="#5e0614" stroke="#5e0614" stroke-width="16" stroke-linejoin="round">SUBASTA NAVIDEÑA</text>
+      <text x="800" y="182" fill="#fff" stroke="#fff" stroke-width="14" stroke-linejoin="round">SUBASTA NAVIDEÑA</text>
+      <text x="800" y="182" fill="url(#rojo-letra)">SUBASTA NAVIDEÑA</text>
+    </g>
+    <path clip-path="url(#c-tit)" d="M60 0 H1540 V120 Q1530.0 133.0 1520.0 120 Q1510.0 114.8 1500.0 120 Q1490.0 133.0 1480.0 120 Q1470.0 114.8 1460.0 120 Q1450.0 133.0 1440.0 120 Q1430.0 114.8 1420.0 120 Q1410.0 133.0 1400.0 120 Q1390.0 114.8 1380.0 120 Q1370.0 133.0 1360.0 120 Q1350.0 114.8 1340.0 120 Q1330.0 133.0 1320.0 120 Q1310.0 114.8 1300.0 120 Q1290.0 133.0 1280.0 120 Q1270.0 114.8 1260.0 120 Q1250.0 133.0 1240.0 120 Q1230.0 114.8 1220.0 120 Q1210.0 133.0 1200.0 120 Q1190.0 114.8 1180.0 120 Q1170.0 133.0 1160.0 120 Q1150.0 114.8 1140.0 120 Q1130.0 133.0 1120.0 120 Q1110.0 114.8 1100.0 120 Q1090.0 133.0 1080.0 120 Q1070.0 114.8 1060.0 120 Q1050.0 133.0 1040.0 120 Q1030.0 114.8 1020.0 120 Q1010.0 133.0 1000.0 120 Q990.0 114.8 980.0 120 Q970.0 133.0 960.0 120 Q950.0 114.8 940.0 120 Q930.0 133.0 920.0 120 Q910.0 114.8 900.0 120 Q890.0 133.0 880.0 120 Q870.0 114.8 860.0 120 Q850.0 133.0 840.0 120 Q830.0 114.8 820.0 120 Q810.0 133.0 800.0 120 Q790.0 114.8 780.0 120 Q770.0 133.0 760.0 120 Q750.0 114.8 740.0 120 Q730.0 133.0 720.0 120 Q710.0 114.8 700.0 120 Q690.0 133.0 680.0 120 Q670.0 114.8 660.0 120 Q650.0 133.0 640.0 120 Q630.0 114.8 620.0 120 Q610.0 133.0 600.0 120 Q590.0 114.8 580.0 120 Q570.0 133.0 560.0 120 Q550.0 114.8 540.0 120 Q530.0 133.0 520.0 120 Q510.0 114.8 500.0 120 Q490.0 133.0 480.0 120 Q470.0 114.8 460.0 120 Q450.0 133.0 440.0 120 Q430.0 114.8 420.0 120 Q410.0 133.0 400.0 120 Q390.0 114.8 380.0 120 Q370.0 133.0 360.0 120 Q350.0 114.8 340.0 120 Q330.0 133.0 320.0 120 Q310.0 114.8 300.0 120 Q290.0 133.0 280.0 120 Q270.0 114.8 260.0 120 Q250.0 133.0 240.0 120 Q230.0 114.8 220.0 120 Q210.0 133.0 200.0 120 Q190.0 114.8 180.0 120 Q170.0 133.0 160.0 120 Q150.0 114.8 140.0 120 Q130.0 133.0 120.0 120 Q110.0 114.8 100.0 120 Q90.0 133.0 80.0 120 Q70.0 114.8 60.0 120 Z" fill="url(#nieve-sombra)"/>
+  </g>
+  <text x="800" y="252" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="800" font-size="38" fill="#e3f1e8"
+    style="paint-order:stroke" stroke="#0a3324" stroke-width="4">¡Usa tus puntos y llévate el mejor regalo!</text>
+
+  <!-- ===== Taller: duende envolviendo regalos (izquierda) ===== -->
+  <svg x="172" y="475.6" width="156" height="302" viewBox="80 100 60 116" overflow="visible"><g class="duende d1">
+      <path d="M92 214 Q96 206 104 208 L106 214Z M114 214 L116 208 Q124 206 128 214Z" fill="#c8102e"/>
+      <circle cx="92" cy="211" r="2" fill="#f2c14e"/><circle cx="128" cy="211" r="2" fill="#f2c14e"/>
+      <rect x="101" y="190" width="7" height="20" fill="#fff"/><rect x="112" y="190" width="7" height="20" fill="#fff"/>
+      <rect x="101" y="193" width="7" height="4" fill="#c8102e"/><rect x="112" y="193" width="7" height="4" fill="#c8102e"/>
+      <rect x="101" y="201" width="7" height="4" fill="#c8102e"/><rect x="112" y="201" width="7" height="4" fill="#c8102e"/>
+      <path d="M96 162 L124 162 L130 194 L124 190 L118 194 L112 190 L106 194 L100 190 L90 194Z" fill="#2f9e62"/>
+      <rect x="95" y="178" width="31" height="6" fill="#2a1d1f"/>
+      <rect x="106" y="176.5" width="9" height="9" rx="1.5" fill="none" stroke="#f2c14e" stroke-width="2"/>
+      <path d="M96 162 L101 168 L106 162 L111 168 L116 162 L121 168 L125 162Z" fill="#c8102e"/>
+      <path d="M98 168 Q112 182 128 182" stroke="#2f9e62" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <circle cx="130" cy="182" r="4.5" fill="#f6c9a8"/>
+      <g class="brazo-envuelve"><path d="M123 168 Q136 172 144 178" stroke="#2f9e62" stroke-width="7" stroke-linecap="round" fill="none"/><circle cx="145" cy="179" r="4.5" fill="#f6c9a8"/></g>
+      <g class="duende-cabeza c1">
+        <polygon points="97,146 84,136 98,153" fill="#f6c9a8"/><polygon points="123,146 136,136 122,153" fill="#f6c9a8"/>
+        <circle cx="110" cy="149" r="14" fill="#f6c9a8"/>
+        <circle cx="102" cy="154" r="3" fill="#f4a3a0" opacity=".8"/><circle cx="118" cy="154" r="3" fill="#f4a3a0" opacity=".8"/>
+        <circle cx="105" cy="148" r="2" fill="#2a1d1f"/><circle cx="115" cy="148" r="2" fill="#2a1d1f"/>
+        <path d="M105 155 Q110 160 115 155" stroke="#8a2433" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M95 141 Q102 104 136 110 Q124 116 125 141Z" fill="#2f9e62"/>
+        <rect x="94" y="137" width="32" height="7" rx="3.5" fill="#c8102e"/>
+        <circle cx="137" cy="110" r="4.5" fill="#f2c14e"/>
+      </g>
+    </g></svg>
+  <g>
+    <rect x="150" y="660" width="380" height="24" rx="6" fill="url(#madera)" stroke="#5e3519" stroke-width="2"/>
+    <rect x="170" y="684" width="18" height="88" fill="#7d4a25"/><rect x="492" y="684" width="18" height="88" fill="#7d4a25"/>
+    <rect x="170" y="736" width="340" height="10" fill="#6b3e1f"/>
+    <!-- caja que se envuelve -->
+    <rect x="300" y="586" width="96" height="74" rx="4" fill="#c8102e"/>
+    <rect x="300" y="586" width="96" height="74" rx="4" fill="url(#papel-rayas)" class="papel"/>
+    <rect x="343" y="586" width="10" height="74" fill="#f2c14e"/><rect x="300" y="616" width="96" height="10" fill="#f2c14e"/>
+    <g class="mono">
+      <ellipse cx="336" cy="580" rx="15" ry="9" fill="#f2c14e" stroke="#c9a24b" stroke-width="2"/>
+      <ellipse cx="360" cy="580" rx="15" ry="9" fill="#f2c14e" stroke="#c9a24b" stroke-width="2"/>
+      <circle cx="348" cy="583" r="6" fill="#e0a92e"/>
+    </g>
+    <g class="brillo"><path d="M410 566 l5 13 l13 5 l-13 5 l-5 13 l-5 -13 l-13 -5 l13 -5z" fill="#ffe08a"/></g>
+    <!-- rollo de papel -->
+    <rect x="420" y="632" width="70" height="28" rx="4" fill="url(#papel-rayas)" stroke="#1f7a4d" stroke-width="2"/>
+    <ellipse cx="490" cy="646" rx="7" ry="14" fill="#1f7a4d"/><ellipse cx="490" cy="646" rx="3" ry="6" fill="#e9dcd2"/>
+    <!-- tijeras -->
+    <circle cx="208" cy="652" r="10" fill="none" stroke="#c9d1d9" stroke-width="5"/>
+    <path d="M220 648 L258 640 M220 655 L258 647" stroke="#9aa3ad" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <!-- pila de regalos terminados -->
+  <g><g><rect x="40" y="712" width="74" height="60" rx="4" fill="#2f9e62"/><rect x="73" y="712" width="8" height="60" fill="#fff"/><rect x="40" y="737" width="74" height="7" fill="#fff"/><ellipse cx="69" cy="708" rx="9" ry="6" fill="#fff"/><ellipse cx="85" cy="708" rx="9" ry="6" fill="#fff"/></g><g><rect x="118" y="728" width="56" height="44" rx="4" fill="#f2c14e"/><rect x="142" y="728" width="8" height="44" fill="#c8102e"/><rect x="118" y="746" width="56" height="7" fill="#c8102e"/><ellipse cx="138" cy="724" rx="9" ry="6" fill="#c8102e"/><ellipse cx="154" cy="724" rx="9" ry="6" fill="#c8102e"/></g><g><rect x="62" y="672" width="52" height="40" rx="4" fill="#c8102e"/><rect x="84" y="672" width="8" height="40" fill="#f2c14e"/><rect x="62" y="688" width="52" height="7" fill="#f2c14e"/><ellipse cx="80" cy="668" rx="9" ry="6" fill="#f2c14e"/><ellipse cx="96" cy="668" rx="9" ry="6" fill="#f2c14e"/></g></g>
+
+  <!-- ===== Santa subastador (centro) ===== -->
+  <svg x="683" y="310.4" width="286" height="353.6" viewBox="240 84 110 136" overflow="visible">
+    <g class="santa-cuerpo">
+      <rect x="268" y="204" width="14" height="13" rx="4" fill="#222"/>
+      <rect x="288" y="204" width="14" height="13" rx="4" fill="#222"/>
+      <ellipse cx="259" cy="180" rx="8" ry="15" fill="#c8102e" transform="rotate(14 259 180)"/>
+      <circle cx="255" cy="194" r="6.5" fill="#1f7a4d"/>
+      <ellipse cx="285" cy="180" rx="28" ry="31" fill="#c8102e"/>
+      <rect x="259" y="198" width="52" height="8" rx="4" fill="#fff"/>
+      <rect x="282" y="150" width="6" height="48" fill="#fff"/>
+      <rect x="257" y="176" width="56" height="9" fill="#222"/>
+      <rect x="278" y="174" width="14" height="13" rx="2" fill="none" stroke="#f2c14e" stroke-width="3"/>
+      
+      <circle cx="285" cy="128" r="18" fill="#f6c9a8"/>
+      <circle cx="275" cy="133" r="4" fill="#f4a3a0" opacity=".7"/><circle cx="295" cy="133" r="4" fill="#f4a3a0" opacity=".7"/>
+      <path d="M266 130 Q267 162 285 168 Q303 162 304 130 Q296 142 285 142 Q274 142 266 130Z" fill="#fff"/>
+      <ellipse cx="279" cy="139" rx="7.5" ry="4" fill="#fff"/><ellipse cx="291" cy="139" rx="7.5" ry="4" fill="#f4f4f4"/>
+      <circle cx="285" cy="134" r="3.6" fill="#e88f7a"/>
+      <circle cx="279" cy="126" r="2.1" fill="#222"/><circle cx="291" cy="126" r="2.1" fill="#222"/>
+      <path d="M268 117 Q284 84 314 102 L302 118Z" fill="#c8102e"/>
+      <rect x="264" y="111" width="42" height="10" rx="5" fill="#fff"/>
+      <circle cx="315" cy="104" r="7" fill="#fff"/>
+    </g>
+  </svg>
+  <!-- podio -->
+  <g>
+    <polygon points="650,560 950,560 922,778 678,778" fill="url(#madera)" stroke="#5e3519" stroke-width="3"/>
+    <rect x="628" y="544" width="344" height="26" rx="7" fill="#8a5530" stroke="#5e3519" stroke-width="3"/>
+    <path d="M672 600 H928 M668 740 H932" stroke="#5e3519" stroke-width="2" opacity=".5"/>
+    <circle cx="800" cy="665" r="52" fill="#c8102e" stroke="#f2c14e" stroke-width="7"/>
+    <polygon fill="#f2c14e" points="800,628 810,654 838,655 816,672 824,699 800,683 776,699 784,672 762,655 790,654"/>
+    <rect x="900" y="531" width="50" height="14" rx="3" fill="#5e3519"/>
+    <rect x="904" y="528" width="42" height="6" rx="2" fill="#7d4a25"/>
+  </g>
+  <!-- golpe del mazo -->
+  <g class="golpe" stroke="#ffe08a" stroke-width="4" stroke-linecap="round">
+    <path d="M896 520 l-14 -10 M925 512 v-16 M954 520 l14 -10"/>
+  </g>
+  <!-- brazo con mazo -->
+  <svg x="683" y="310.4" width="286" height="353.6" viewBox="240 84 110 136" overflow="visible">
+    <g class="mazo">
+      <path d="M300 154 L317 158" stroke="#c8102e" stroke-width="11" stroke-linecap="round"/>
+      <rect x="311" y="153" width="7" height="10" rx="2" fill="#fff"/>
+      <path d="M318 158 L333 160" stroke="#8a5530" stroke-width="3.4" stroke-linecap="round"/>
+      <rect x="330" y="151" width="9" height="19" rx="2.5" fill="#6b3e1f" stroke="#4a2a14" stroke-width="1"/>
+      <rect x="330" y="155" width="9" height="2.5" fill="#f2c14e"/><rect x="330" y="163.5" width="9" height="2.5" fill="#f2c14e"/>
+      <circle cx="318" cy="158" r="6.5" fill="#1f7a4d"/>
+    </g>
+  </svg>
+  <!-- globo ¡Vendido! -->
+  <g class="vendido">
+    <rect x="978" y="372" width="210" height="74" rx="22" fill="#fff"/>
+    <polygon points="992,440 968,472 1022,442" fill="#fff"/>
+    <text x="1083" y="422" text-anchor="middle" font-family="'Luckiest Guy',sans-serif" font-size="38" fill="#c8102e" letter-spacing="1">¡VENDIDO!</text>
+  </g>
+
+  <!-- ===== Banda transportadora y duende revisando la lista (derecha) ===== -->
+  <g>
+    <rect x="1050" y="704" width="16" height="68" fill="#4a4f57"/><rect x="1384" y="704" width="16" height="68" fill="#4a4f57"/>
+    <rect x="1040" y="680" width="370" height="30" rx="15" fill="#2b2f36"/>
+    <path class="cinta-linea" d="M1055 682 H1395" stroke="#5c636e" stroke-width="3"/>
+    <g fill="#9aa3ad" stroke="#5c636e" stroke-width="2">
+      <g class="rodillo"><circle cx="1056" cy="695" r="11"/><path d="M1048 695 h16 M1056 687 v16" stroke-width="2.5"/></g>
+      <g class="rodillo"><circle cx="1170" cy="695" r="11"/><path d="M1162 695 h16 M1170 687 v16" stroke-width="2.5"/></g>
+      <g class="rodillo"><circle cx="1284" cy="695" r="11"/><path d="M1276 695 h16 M1284 687 v16" stroke-width="2.5"/></g>
+      <g class="rodillo"><circle cx="1394" cy="695" r="11"/><path d="M1386 695 h16 M1394 687 v16" stroke-width="2.5"/></g>
+    </g>
+    <g class="viaja"><g><rect x="1050" y="628" width="60" height="52" rx="4" fill="#c8102e"/><rect x="1076" y="628" width="8" height="52" fill="#f2c14e"/><rect x="1050" y="649" width="60" height="7" fill="#f2c14e"/><ellipse cx="1072" cy="624" rx="9" ry="6" fill="#f2c14e"/><ellipse cx="1088" cy="624" rx="9" ry="6" fill="#f2c14e"/></g></g>
+    <g class="viaja" style="animation-delay:-4s"><g><rect x="1050" y="616" width="50" height="64" rx="4" fill="#f2c14e"/><rect x="1071" y="616" width="8" height="64" fill="#c8102e"/><rect x="1050" y="642" width="50" height="7" fill="#c8102e"/><ellipse cx="1067" cy="612" rx="9" ry="6" fill="#c8102e"/><ellipse cx="1083" cy="612" rx="9" ry="6" fill="#c8102e"/></g></g>
+    <g class="viaja" style="animation-delay:-8s"><g><rect x="1050" y="634" width="66" height="46" rx="4" fill="#2f9e62"/><rect x="1079" y="634" width="8" height="46" fill="#fff"/><rect x="1050" y="653" width="66" height="7" fill="#fff"/><ellipse cx="1075" cy="630" rx="9" ry="6" fill="#fff"/><ellipse cx="1091" cy="630" rx="9" ry="6" fill="#fff"/></g></g>
+  </g>
+  <svg x="1418" y="498.4" width="180" height="278" viewBox="80 100 75 116" overflow="visible"><g class="duende d2">
+      <path d="M92 214 Q96 206 104 208 L106 214Z M114 214 L116 208 Q124 206 128 214Z" fill="#c8102e"/>
+      <circle cx="92" cy="211" r="2" fill="#f2c14e"/><circle cx="128" cy="211" r="2" fill="#f2c14e"/>
+      <rect x="101" y="190" width="7" height="20" fill="#fff"/><rect x="112" y="190" width="7" height="20" fill="#fff"/>
+      <rect x="101" y="193" width="7" height="4" fill="#c8102e"/><rect x="112" y="193" width="7" height="4" fill="#c8102e"/>
+      <rect x="101" y="201" width="7" height="4" fill="#c8102e"/><rect x="112" y="201" width="7" height="4" fill="#c8102e"/>
+      <path d="M96 162 L124 162 L130 194 L124 190 L118 194 L112 190 L106 194 L100 190 L90 194Z" fill="#2f9e62"/>
+      <rect x="95" y="178" width="31" height="6" fill="#2a1d1f"/>
+      <rect x="106" y="176.5" width="9" height="9" rx="1.5" fill="none" stroke="#f2c14e" stroke-width="2"/>
+      <path d="M96 162 L101 168 L106 162 L111 168 L116 162 L121 168 L125 162Z" fill="#c8102e"/>
+      <path d="M97 168 Q86 178 90 186" stroke="#2f9e62" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <circle cx="90" cy="187" r="4.5" fill="#f6c9a8"/>
+      <g class="duende-brazo">
+        <path d="M123 168 Q134 170 138 164" stroke="#2f9e62" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <circle cx="139" cy="163" r="4.5" fill="#f6c9a8"/>
+        <rect x="134" y="160" width="16" height="50" rx="2" fill="#fff6e0" stroke="#e3cfa6" stroke-width="1.2"/>
+        <path d="M137 168 H147 M137 174 H146 M137 180 H147 M137 186 H145 M137 192 H147 M137 198 H144" stroke="#c9b48a" stroke-width="1.4"/>
+        <path d="M137 168 l1.5 1.5 l3 -3" stroke="#2f9e62" stroke-width="1.4" fill="none"/>
+        <path d="M137 180 l1.5 1.5 l3 -3" stroke="#2f9e62" stroke-width="1.4" fill="none"/>
+        <ellipse cx="142" cy="211" rx="9" ry="3.5" fill="#efdfbd" stroke="#e3cfa6" stroke-width="1"/>
+      </g>
+      <g class="duende-cabeza c2">
+        <polygon points="97,146 84,136 98,153" fill="#f6c9a8"/><polygon points="123,146 136,136 122,153" fill="#f6c9a8"/>
+        <circle cx="110" cy="149" r="14" fill="#f6c9a8"/>
+        <circle cx="102" cy="154" r="3" fill="#f4a3a0" opacity=".8"/><circle cx="118" cy="154" r="3" fill="#f4a3a0" opacity=".8"/>
+        <circle cx="105" cy="148" r="2" fill="#2a1d1f"/><circle cx="115" cy="148" r="2" fill="#2a1d1f"/>
+        <path d="M105 155 Q110 160 115 155" stroke="#8a2433" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M95 141 Q102 104 136 110 Q124 116 125 141Z" fill="#2f9e62"/>
+        <rect x="94" y="137" width="32" height="7" rx="3.5" fill="#c8102e"/>
+        <circle cx="137" cy="110" r="4.5" fill="#f2c14e"/>
+      </g>
+    </g></svg>
+</svg>
+<div id="nieve" aria-hidden="true"></div>
+
+<script>
+// Esferas colgantes
+(function () {
+  var g = document.getElementById('esferas'), h = '';
+  var col = ['#c8102e', '#f2c14e', '#2f9e62', '#ffffff', '#d9dde3'];
+  var largo = [20, 38, 14, 30, 22, 42, 16, 34, 24, 18, 36, 26, 14, 40, 20, 32, 18, 28, 22];
+  for (var i = 0; i < 19; i++) {
+    var x = 40 + i * 84, L = largo[i], r = 12 + (i % 3) * 3, c = col[i % col.length], cy = L + 8 + r;
+    h += '<g class="esfera" style="transform-origin:' + x + 'px 0px;animation-delay:-' + (i * 0.4) + 's">' +
+      '<line x1="' + x + '" y1="0" x2="' + x + '" y2="' + (L + 2) + '" stroke="#f2c14e" stroke-width="1.4"/>' +
+      '<rect x="' + (x - 5) + '" y="' + L + '" width="10" height="9" rx="2" fill="#d4a63a"/>' +
+      '<circle cx="' + x + '" cy="' + cy + '" r="' + r + '" fill="' + c + '"/>' +
+      '<path d="M' + (x - r) + ' ' + cy + ' Q' + x + ' ' + (cy + r * 0.45) + ' ' + (x + r) + ' ' + cy + '" stroke="' +
+        (c === '#ffffff' ? '#c8102e' : '#ffffff') + '" stroke-opacity=".55" stroke-width="2" fill="none"/>' +
+      '<ellipse cx="' + (x - r * 0.38) + '" cy="' + (cy - r * 0.4) + '" rx="' + (r * 0.28) + '" ry="' + (r * 0.18) +
+        '" fill="#fff" opacity=".7" transform="rotate(-35 ' + (x - r * 0.38) + ' ' + (cy - r * 0.4) + ')"/></g>';
+  }
+  g.innerHTML = h;
+})();
+
+// Nieve ligera
+(function () {
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var cont = document.getElementById('nieve');
+  for (var i = 0; i < 50; i++) {
+    var c = document.createElement('div');
+    c.className = 'copo';
+    c.textContent = Math.random() < 0.35 ? '❄' : '•';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.fontSize = (8 + Math.random() * 16) + 'px';
+    c.style.setProperty('--dx', (Math.random() * 80 - 40) + 'px');
+    c.style.animationDuration = (9 + Math.random() * 9) + 's';
+    c.style.animationDelay = -(Math.random() * 18) + 's';
+    cont.appendChild(c);
+  }
+})();
+
+// Doble clic o tecla F para pantalla completa
+function completa() {
+  var d = document.documentElement;
+  if (!document.fullscreenElement && d.requestFullscreen) d.requestFullscreen();
+  else if (document.exitFullscreen) document.exitFullscreen();
+}
+document.addEventListener('dblclick', completa);
+document.addEventListener('keydown', function (e) { if (e.key === 'f' || e.key === 'F') completa(); });
+</script>
+</body>
+</html>
