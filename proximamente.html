@@ -49,6 +49,14 @@ html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:Nunit
 .foco{fill:#fff3c4;animation:focos 1.2s steps(1) infinite}
 .foco.f1{animation-delay:-.4s}.foco.f2{animation-delay:-.8s}
 @keyframes focos{0%{fill:#fffbe6;filter:drop-shadow(0 0 4px #ffe08a)}33%{fill:#8a6a20;filter:none}66%{fill:#8a6a20;filter:none}}
+#sonido{position:absolute;left:50%;bottom:calc(var(--ph) * .5);transform:translate(-50%,50%);z-index:12;border:2px solid #f2c14e;
+  background:rgba(42,2,10,.85);color:#fff3c4;font:800 15px Nunito,system-ui,sans-serif;padding:10px 18px;border-radius:999px;cursor:pointer;
+  display:flex;align-items:center;gap:8px;white-space:nowrap;box-shadow:0 0 18px rgba(242,193,78,.35);animation:llama 1.8s ease-in-out infinite}
+#sonido .ico{font-size:18px}
+#sonido.activo{left:auto;right:14px;bottom:14px;transform:none;padding:8px 10px;animation:none;opacity:.8}
+#sonido.activo .txt{display:none}
+#sonido:focus-visible{outline:3px solid #fff3c4;outline-offset:3px}
+@keyframes llama{0%,100%{box-shadow:0 0 10px rgba(242,193,78,.25)}50%{box-shadow:0 0 26px rgba(242,193,78,.7)}}
 #bambalina{position:absolute;left:0;top:0;width:100%;height:var(--bh);z-index:10}
 
 
@@ -418,6 +426,7 @@ html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:Nunit
   <svg class="lampara" id="lampDer" viewBox="0 0 80 70"><rect x="34" y="0" width="12" height="18" fill="#222"/><path d="M14 24 H66 L58 60 H22 Z" fill="#2b2f36" stroke="#111" stroke-width="3"/><ellipse cx="40" cy="60" rx="20" ry="6" fill="#fff6c4"/></svg>
   
   
+  <button id="sonido" type="button" aria-pressed="false"><span class="ico">🔔</span><span class="txt">Toca para activar el sonido</span></button>
 </div>
 <script>
 var raiz=document.documentElement.style, luz=document.getElementById('luz'), sombra=document.getElementById('sombra'), haz=document.getElementById('haz');
@@ -459,6 +468,61 @@ function estadoCaravana(T){
   else {x=xf;}
   return {x:x,v:Math.min(1,v),t:t,visible:t>=ENT&&t<SALE};
 }
+// ---------- Sonido navideño (se genera en el navegador) ----------
+var AC=null, MASTER=null, RUIDO=null, sonidoOn=false, melodiaTimer=null;
+function iniciarAudio(){
+  AC=new (window.AudioContext||window.webkitAudioContext)();
+  MASTER=AC.createGain(); MASTER.gain.value=0.7; MASTER.connect(AC.destination);
+  var n=AC.sampleRate*0.5, b=AC.createBuffer(1,n,AC.sampleRate), d=b.getChannelData(0);
+  for(var i=0;i<n;i++) d[i]=Math.random()*2-1; RUIDO=b;
+}
+// campanita tipo caja de música
+function nota(f,t,dur,vol){
+  [[1,1],[2.76,0.35],[5.4,0.12]].forEach(function(pz){
+    var o=AC.createOscillator(), g=AC.createGain();
+    o.type='sine'; o.frequency.value=f*pz[0];
+    g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(vol*pz[1],t+0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur*(pz[0]>1?0.5:1));
+    o.connect(g); g.connect(MASTER); o.start(t); o.stop(t+dur+0.05);
+  });
+}
+// cascabeles
+function cascabel(vol,t){
+  t=t||AC.currentTime;
+  for(var k=0;k<3;k++){
+    var s=AC.createBufferSource(), bp=AC.createBiquadFilter(), g=AC.createGain(), tk=t+k*0.028+Math.random()*0.01;
+    s.buffer=RUIDO; bp.type='bandpass'; bp.frequency.value=6500+Math.random()*2500; bp.Q.value=2.2;
+    g.gain.setValueAtTime(0.0001,tk); g.gain.exponentialRampToValueAtTime(0.22*vol,tk+0.003); g.gain.exponentialRampToValueAtTime(0.0001,tk+0.16);
+    s.connect(bp); bp.connect(g); g.connect(MASTER); s.start(tk,Math.random()*0.3,0.2);
+    nota(3200+Math.random()*1800,tk,0.12,0.03*vol);
+  }
+}
+// "Jingle Bells" (dominio público) en caja de música, bajito y en bucle
+var C5=523.25,D5=587.33,E5=659.25,F5=698.46,G5=783.99;
+var MELODIA=[[E5,1],[E5,1],[E5,2],[E5,1],[E5,1],[E5,2],[E5,1],[G5,1],[C5,1.5],[D5,.5],[E5,4],
+  [F5,1],[F5,1],[F5,1.5],[F5,.5],[F5,1],[E5,1],[E5,1],[E5,.5],[E5,.5],[E5,1],[D5,1],[D5,1],[E5,1],[D5,2],[G5,2],
+  [E5,1],[E5,1],[E5,2],[E5,1],[E5,1],[E5,2],[E5,1],[G5,1],[C5,1.5],[D5,.5],[E5,4],
+  [F5,1],[F5,1],[F5,1.5],[F5,.5],[F5,1],[E5,1],[E5,1],[E5,.5],[E5,.5],[G5,1],[G5,1],[F5,1],[D5,1],[C5,4]];
+function tocarMelodia(){
+  if(!sonidoOn) return;
+  var b=0.34, t=AC.currentTime+0.15;
+  MELODIA.forEach(function(n){ nota(n[0],t,Math.max(0.6,n[1]*b*1.6),0.07); t+=n[1]*b; });
+  var total=MELODIA.reduce(function(s,n){return s+n[1];},0)*b;
+  melodiaTimer=setTimeout(tocarMelodia,(total+4)*1000);
+}
+function campanasLlegada(){ if(!sonidoOn)return; var t=AC.currentTime; [C5,E5,G5,C5*2].forEach(function(f,i){nota(f,t+i*0.12,1.4,0.09);}); cascabel(1,t+0.5); cascabel(0.8,t+0.7); }
+var btnS=document.getElementById('sonido');
+btnS.addEventListener('click',function(){
+  if(!AC) iniciarAudio();
+  if(AC.state==='suspended') AC.resume();
+  sonidoOn=!sonidoOn;
+  btnS.classList.add('activo'); btnS.setAttribute('aria-pressed',sonidoOn);
+  btnS.querySelector('.ico').textContent=sonidoOn?'🔔':'🔕';
+  btnS.setAttribute('aria-label',sonidoOn?'Silenciar':'Activar sonido');
+  if(sonidoOn){ cascabel(1); tocarMelodia(); } else { clearTimeout(melodiaTimer); MASTER.gain.setTargetAtTime(0,AC.currentTime,0.05); }
+  if(sonidoOn) MASTER.gain.setTargetAtTime(0.7,AC.currentTime,0.05);
+});
+var ultimoPaso=0, tAnt=0;
 var t0=performance.now();
 function cuadro(ts){
   var t=(ts-t0)/1000, W=innerWidth, H=innerHeight, esc=luz.getBoundingClientRect();
@@ -468,6 +532,9 @@ function cuadro(ts){
   var cy=H-CV.ph+CV.ph*0.30-CV.ch*(438/450);
   car.style.visibility='visible';
   var paso=E.v>0.02; fasePaso+=dt*(4+7*E.v)*Math.PI*(paso?1:0);
+  var nPaso=Math.floor(fasePaso/Math.PI);
+  if(nPaso!==ultimoPaso){ultimoPaso=nPaso; if(sonidoOn&&paso) cascabel(0.35+0.5*E.v);}
+  if(sonidoOn&&tAnt<LLEGA&&E.t>=LLEGA) campanasLlegada(); tAnt=E.t;
   var sw=paso?Math.sin(fasePaso):0, bob=paso?Math.abs(Math.sin(fasePaso)):0;
   car.style.transform='translate('+E.x+'px,'+(cy-bob*2*E.v)+'px)';
   if(cxPrev!==null&&Math.abs(E.x-cxPrev)<W) giro+=(E.x-cxPrev)/(36*CV.cv/580)*57.3; cxPrev=E.x;
