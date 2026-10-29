@@ -308,6 +308,18 @@ body{padding-bottom:40px}
 body.jugando-portal{overflow:hidden}
 body.jugando-portal .portal,body.jugando-portal #nieve,body.jugando-portal .esferas{visibility:hidden}
 
+/* Interruptor de la app */
+.interruptor{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:720px;margin:4px auto 6px;padding:18px 20px;border-radius:20px;
+  background:var(--nieve);color:var(--tinta);box-shadow:0 14px 26px -14px rgba(0,0,0,.6);position:relative;overflow:hidden}
+.interruptor::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:repeating-linear-gradient(-45deg,var(--rojo) 0 12px,#fff 12px 24px)}
+.int-txt b{display:block;font:900 20px Nunito,sans-serif;color:var(--rojo)}
+.int-txt small{display:block;margin-top:4px;font:700 14px/1.35 Nunito,sans-serif;color:var(--suave)}
+.sw{flex:none;position:relative;width:76px;height:42px;border-radius:999px;border:0;cursor:pointer;background:#cfc6bd;transition:background .25s}
+.sw span{position:absolute;top:4px;left:4px;width:34px;height:34px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.3);transition:transform .25s}
+.sw[aria-checked="true"]{background:var(--hoja)}
+.sw[aria-checked="true"] span{transform:translateX(34px)}
+.sw[disabled]{opacity:.6;cursor:wait}
+.sw:focus-visible{outline:3px solid var(--oro);outline-offset:3px}
 /* Administración */
 .admin-cerrado{max-width:520px;margin:0 auto;text-align:center;background:rgba(255,255,255,.07);border:2px dashed rgba(242,193,78,.6);
   border-radius:22px;padding:26px 20px}
@@ -492,6 +504,10 @@ body.jugando-portal .portal,body.jugando-portal #nieve,body.jugando-portal .esfe
       <button type="button" class="boton-admin" id="btnAdmin">Entrar con PIN</button>
     </div>
     <div id="adminAbierto" hidden>
+      <div class="interruptor">
+        <div class="int-txt"><b>📱 App de invitados</b><small id="modoTxt">Revisando…</small></div>
+        <button type="button" class="sw" id="swApp" role="switch" aria-checked="false" aria-label="Activar la app de invitados" disabled><span></span></button>
+      </div>
       <h3 class="sub-admin">🛠️ Herramientas para la fiesta</h3>
       <div class="juegos" id="herramientas"></div>
       <h3 class="sub-admin">🎁 Subasta y resultados</h3>
@@ -732,7 +748,26 @@ let adminOk = false;
 try { adminOk = sessionStorage.getItem("adminPosada") === "1"; } catch (e) {}
 let pendiente = null;
 function esAdmin(id) { const g = CATALOGO.find(x => x.id === id); return g && (g.tipo === "h" || g.tipo === "a"); }
-function mostrarAdmin() { $("adminCerrado").hidden = adminOk; $("adminAbierto").hidden = !adminOk; }
+function mostrarAdmin() { $("adminCerrado").hidden = adminOk; $("adminAbierto").hidden = !adminOk; if (adminOk) revisarApp(); }
+/* ---------- Interruptor: telón ↔ app de invitados ---------- */
+const API_POSADA = "https://script.google.com/macros/s/AKfycbz3BdSkfxvH9OzpXBI4hdP0D5GQu6DWrOJOsajLLxBc3F9gvqqaVgL_Pq5Nra9zPg1s/exec";
+const LLAVE_ADMIN = "nGYssD5gtM191l12IdWOC4oc";
+function pintarApp(on) {
+  const sw = $("swApp"); sw.setAttribute("aria-checked", on ? "true" : "false"); sw.disabled = false;
+  $("modoTxt").textContent = on ? "ENCENDIDA: los invitados ya ven la app (registro, QR, mural y premios)."
+                                : "APAGADA: los invitados ven el telón con la cuenta regresiva.";
+}
+function revisarApp() {
+  fetch(API_POSADA + "?api=modo").then(r => r.json()).then(o => pintarApp(!!o.app)).catch(() => { $("modoTxt").textContent = "Sin conexión para revisar el estado."; });
+}
+$("swApp").onclick = () => {
+  const on = $("swApp").getAttribute("aria-checked") !== "true";
+  if (!confirm(on ? "¿Encender la app para los invitados?\nEl telón se cambiará por la app en sus celulares." : "¿Apagar la app?\nLos invitados volverán a ver el telón.")) return;
+  $("swApp").disabled = true; $("modoTxt").textContent = "Guardando…";
+  fetch(API_POSADA + "?" + new URLSearchParams({ api: "cambiarModo", llave: LLAVE_ADMIN, app: on ? "1" : "0" }))
+    .then(r => r.json()).then(o => { if (o.denegado) { $("modoTxt").textContent = "No autorizado: revisa la llave en el Apps Script."; $("swApp").disabled = false; } else pintarApp(!!o.app); })
+    .catch(() => { $("modoTxt").textContent = "Sin conexión. Intenta de nuevo."; $("swApp").disabled = false; });
+};
 function pedirPin(despues) {
   pendiente = despues || null;
   $("pinFondo").hidden = false; $("pinError").textContent = ""; $("pinCampo").value = "";
