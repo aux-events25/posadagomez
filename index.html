@@ -111,6 +111,7 @@ label.campo{display:block;margin-top:20px;font-weight:800;font-size:15px}
 #n{display:block;width:100%;margin-top:8px;font:600 20px Nunito,sans-serif;padding:14px 16px;border-radius:14px;
   border:2px solid #e9dcd2;background:#fff;color:var(--tinta);outline:none;transition:border-color .15s}
 #n:focus{border-color:var(--hoja2)}
+a.boton{text-align:center;text-decoration:none;box-sizing:border-box}
 .boton{display:block;width:100%;margin-top:16px;border:0;border-radius:999px;padding:16px 20px;cursor:pointer;
   font:900 19px Nunito,sans-serif;color:#fff;background:var(--rojo);box-shadow:0 6px 0 var(--rojo2);
   transition:transform .08s,box-shadow .08s}
@@ -719,7 +720,8 @@ function inicio(r, aviso, animar) {
     return;
   }
   poner((aviso ? '<p class="aviso ' + (r.tipo || '') + '">' + esc(aviso) + '</p>' : '') +
-    tarjeta(r) + '<p class="nota">' + D.mensajeFinal + '</p>');
+    tarjeta(r) + '<p class="nota">' + (r.tipo === 'terminado' ? '¡Gracias por jugar! Usa tus puntos en la subasta 🎁' : D.mensajeFinal) + '</p>' +
+    (r.tipo === 'terminado' ? '<a class="boton" href="' + URL_APP_INVITADOS + '">🏠 Ir a mi app de la posada</a>' : ''));
   var t = document.querySelector('.tarjeta');
   if (t && t.scrollIntoView) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
   if (animar) contador(Number(r.desde || 0), Number(r.total || 0));
@@ -733,6 +735,8 @@ var TACHE = '<svg viewBox="0 0 40 40" aria-hidden="true"><defs><pattern id="bast
   '<ellipse cx="14.5" cy="15" rx="5" ry="2.6" fill="#1f7a4d" transform="rotate(-30 14.5 15)"/>' +
   '<ellipse cx="25.5" cy="15" rx="5" ry="2.6" fill="#2f9e62" transform="rotate(30 25.5 15)"/>' +
   '<circle cx="18" cy="19" r="2.6" fill="#c8102e"/><circle cx="22" cy="19" r="2.6" fill="#9a0b22"/></svg>';
+// Link de la app de invitados (repositorio proximamente)
+var URL_APP_INVITADOS = 'https://aux-events25.github.io/proximamente/';
 var ICONOS = { ok: '🎁', repetido: TACHE, expirado: '⏰', agotado: '🦌', invalido: '❓', error: '⚠️', hola: '🎅', terminado: '🔔' };
 var AVISOS = { ok: 'Último código', repetido: 'Ese QR ya lo tenías', expirado: 'Ese código ya cerró',
                agotado: 'Ese código ya se agotó', invalido: 'Ese código no es válido para la dinámica',
@@ -749,6 +753,17 @@ function resultado(o) {
     '<div class="ico">' + (ICONOS[tipo] || '⭐') + '</div>' +
     '<div><div class="t">' + esc(o.titulo || '') + '</div>' +
     (o.sub ? '<div class="s">' + esc(o.sub) + '</div>' : '') + '</div></div>';
+  if (tipo === 'terminado') {
+    h += '<a class="boton" id="irApp" href="' + URL_APP_INVITADOS + '">🏠 Volver a mi app de la posada</a>' +
+         '<p class="nota" id="cuentaApp">Te llevamos a tu app en 20 segundos…</p>';
+    poner(h);
+    var quedan = 20, t = setInterval(function () {
+      quedan--; var c = document.getElementById('cuentaApp');
+      if (c) c.textContent = 'Te llevamos a tu app en ' + quedan + ' segundo' + (quedan === 1 ? '' : 's') + '…';
+      if (quedan <= 0) { clearInterval(t); location.href = URL_APP_INVITADOS; }
+    }, 1000);
+    return;
+  }
   if (o.nombre) h += '<button class="boton" id="ver">⭐ Ver mis puntos</button>';
   else h += '<p class="nota">' + D.mensajeFinal + '</p>';
   poner(h);
