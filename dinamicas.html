@@ -370,6 +370,38 @@ body.jugando-portal .portal,body.jugando-portal #nieve,body.jugando-portal .esfe
 .alerta-btn{background:linear-gradient(135deg,#e02a45,#9a0b22);font-size:19px;padding:15px 26px;animation:latidoAdm 2s ease-in-out infinite}
 @keyframes latidoAdm{0%,100%{box-shadow:0 5px 0 var(--rojo2),0 0 0 0 rgba(200,16,46,.5)}50%{box-shadow:0 5px 0 var(--rojo2),0 0 0 10px rgba(200,16,46,0)}}
 .blanco-adm{background:#fff;color:var(--rojo);border:2px solid var(--rojo);box-shadow:0 5px 0 #e9dcd2}
+
+/* Borrar registros */
+.adm-tile.peligro .adm-txt b{color:#9a0b22}
+.borrar-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:620px){.borrar-cols{grid-template-columns:1fr}}
+.borrar-cols>div{border-radius:16px;padding:12px 14px;background:#fff}
+.borrar-cols ul{margin:6px 0 0;padding-left:20px;font:700 14px/1.55 Nunito,sans-serif;color:var(--tinta)}
+.borrar-t{font:900 16px Nunito,sans-serif}.borrar-t.mal{color:var(--rojo)}.borrar-t.ok{color:var(--hoja2)}
+.borrar-check{display:flex;align-items:center;gap:10px;margin:16px 2px 4px;font:800 15px Nunito,sans-serif;color:var(--tinta);cursor:pointer}
+.borrar-check input{width:20px;height:20px;accent-color:var(--rojo)}
+.boton-borrar{display:block;width:100%;margin-top:14px;border:0;border-radius:16px;padding:16px;font:900 18px Nunito,sans-serif;color:#fff;cursor:pointer;
+  background:repeating-linear-gradient(-45deg,#9a0b22 0 16px,#7a0a1c 16px 32px);box-shadow:0 6px 0 #4a0410}
+.boton-borrar:active{transform:translateY(3px);box-shadow:0 3px 0 #4a0410}.boton-borrar[disabled]{opacity:.6}
+.boton-borrar:focus-visible{outline:3px solid var(--oro);outline-offset:3px}
+/* Lista de retos */
+.cat-cab{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.cat-cab b{font:900 18px Nunito,sans-serif;color:var(--tinta)}
+.cat-info{margin:14px 0 8px;font:800 14px Nunito,sans-serif;color:var(--suave)}
+.cat-lista{display:grid;gap:8px;max-height:60vh;overflow:auto;padding:2px}
+.cat-fila{display:grid;grid-template-columns:30px 58px 1fr auto auto auto;align-items:center;gap:8px;background:#fff;border:2px solid #efe3d6;border-radius:14px;padding:8px 10px}
+.cat-fila.nuevo{border-color:var(--oro);background:#fffbea}
+.cat-num{font:900 13px Nunito,sans-serif;color:var(--suave);text-align:center}
+.cat-fila input[type=text]{width:100%;border:2px solid #efe3d6;border-radius:10px;padding:8px 10px;font:700 15px Nunito,sans-serif;outline:none;color:var(--tinta);background:#fff}
+.cat-fila input.ico{text-align:center;font-size:20px;padding:6px}
+.cat-fila input[type=text]:focus{border-color:var(--hoja2)}
+.cat-uno{display:flex;align-items:center;gap:4px;font:800 12px Nunito,sans-serif;color:var(--suave);white-space:nowrap;cursor:pointer}
+.cat-uso{font:900 11px Nunito,sans-serif;border-radius:999px;padding:3px 8px;background:#e3f4ea;color:var(--hoja2);white-space:nowrap}
+.cat-btn{border:0;background:#f3ece4;border-radius:10px;width:36px;height:36px;font-size:17px;cursor:pointer}
+.cat-btn:hover{background:#fff3c4}.cat-btn:focus-visible{outline:3px solid var(--oro);outline-offset:2px}
+.cat-btns{display:flex;gap:6px}
+@media (max-width:620px){.cat-fila{grid-template-columns:44px 1fr auto}.cat-num{display:none}.cat-uno,.cat-uso{grid-column:2}.cat-btns{grid-row:1/3;grid-column:3}}
+.cat-acciones{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.cat-acciones button{flex:1;min-width:150px;font-size:15px;padding:12px 14px}
 /* Panel de la app de invitados */
 .panel-app{max-width:760px;margin:0 auto 6px;background:var(--nieve);color:var(--tinta);border-radius:22px;overflow:hidden;position:relative;
   box-shadow:0 14px 26px -14px rgba(0,0,0,.6);padding-top:10px}
@@ -652,7 +684,8 @@ body.en-admin #portal,body.en-admin #esferas{display:none}
       <div class="adm-grid"><button type="button" class="adm-tile" data-panel="app" style="--c:#2f9e62"><span class="adm-ico" aria-hidden="true">📱</span>
           <span class="adm-txt"><b>App de invitados</b><small>Mostrar la app y desbloquear escáner, mural, bonus y premios</small><span class="adm-badge" id="badge-app" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button><button type="button" class="adm-tile" data-panel="cierre" style="--c:#6e5f61"><span class="adm-ico" aria-hidden="true">🛑</span>
           <span class="adm-txt"><b>Cierre de códigos</b><small>"¡La posada terminó!" ahora o a una hora programada</small><span class="adm-badge" id="badge-cierre" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button><button type="button" class="adm-tile" data-panel="qrs" style="--c:#3b5ba5"><span class="adm-ico" aria-hidden="true">🔍</span>
-          <span class="adm-txt"><b>Códigos QR</b><small>Revisa tus códigos y muéstralos en grande</small><span class="adm-badge" id="badge-qrs" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button></div>
+          <span class="adm-txt"><b>Códigos QR</b><small>Revisa tus códigos y muéstralos en grande</small><span class="adm-badge" id="badge-qrs" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button><button type="button" class="adm-tile peligro" data-panel="borrar" style="--c:#7a0a1c"><span class="adm-ico" aria-hidden="true">🧹</span>
+          <span class="adm-txt"><b>Borrar registros</b><small>Empieza de cero: borra invitados, puntos y retos (los QR se quedan)</small><span class="adm-badge" id="badge-borrar" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button></div>
     </section>
     <section class="adm-panel" id="panel-app" hidden aria-labelledby="pt-app">
       <div class="adm-panel-cab"><span class="adm-ico" style="--c:#2f9e62" aria-hidden="true">📱</span><div><h2 id="pt-app">App de invitados</h2><p>Mostrar la app y desbloquear escáner, mural, bonus y premios</p></div></div>
@@ -682,6 +715,21 @@ body.en-admin #portal,body.en-admin #esferas{display:none}
           <button type="button" class="chip-f" data-f="pendiente" aria-pressed="false">📷 Sin foto</button>
         </div>
         <div class="rt-lista" id="rtLista"></div>
+      </div>
+      <div class="panel-app panel-pad" style="margin-top:14px">
+        <div class="cat-cab"><div><b>📋 Lista de retos</b><p class="panel-txt" style="margin:2px 0 0">De aquí sale el reto de cada invitado. Revísalos, cámbialos, quita o agrega los que quieras y guarda.</p></div>
+          <button type="button" class="boton-admin" id="btnCatalogo">📋 Ver lista de retos</button></div>
+        <div id="catEditor" hidden>
+          <p class="cat-info" id="catInfo"></p>
+          <div class="cat-lista" id="catLista"></div>
+          <div class="cat-acciones">
+            <button type="button" class="boton-admin blanco-adm" id="catAgregar">➕ Agregar reto</button>
+            <button type="button" class="boton-admin blanco-adm" id="catAzar">🎲 Generar lista al azar</button>
+            <button type="button" class="boton-admin blanco-adm" id="catOriginal">↺ Restaurar originales</button>
+            <button type="button" class="boton-admin verde" id="catGuardar">💾 Guardar lista</button>
+          </div>
+          <p class="aj-msg" id="catMsg" role="status"></p>
+        </div>
       </div>
     </section>
     <section class="adm-panel" id="panel-puntos" hidden aria-labelledby="pt-puntos">
@@ -717,6 +765,18 @@ body.en-admin #portal,body.en-admin #esferas{display:none}
         <p class="panel-txt">Revisa los códigos de tu hoja <b>QRs</b>: puntos, cuántas personas lo han escaneado y si siguen activos. Toca uno para verlo en grande.</p>
         <button type="button" class="boton-admin" id="btnQRs">🔍 Ver mis códigos QR</button>
         <div class="qr-grid" id="qrGrid"></div>
+      </div>
+    </section>
+    <section class="adm-panel" id="panel-borrar" hidden aria-labelledby="pt-borrar">
+      <div class="adm-panel-cab"><span class="adm-ico" style="--c:#7a0a1c" aria-hidden="true">🧹</span><div><h2 id="pt-borrar">Borrar registros</h2><p>Deja todo limpio para empezar de nuevo</p></div></div>
+      <div class="panel-app panel-pad">
+        <div class="borrar-cols">
+          <div><b class="borrar-t mal">🗑️ Se borra</b><ul><li>Todos los invitados y sus apodos</li><li>Todos los puntos, escaneos y canjes</li><li>Las ventas de la subasta</li><li>Los retos asignados y sus fotos en revisión</li><li>La ronda del regalo misterioso</li><li>En los celulares: logros, avatar y sesión (se limpian solos)</li></ul></div>
+          <div><b class="borrar-t ok">✅ Se conserva</b><ul><li>Tus códigos QR (hoja QRs)</li><li>Los interruptores de la app</li><li>La lista de retos</li><li>La hora de cierre programada</li></ul></div>
+        </div>
+        <label class="borrar-check"><input type="checkbox" id="borrarMural" checked> También quitar todas las fotos y cartas del mural</label>
+        <button type="button" class="boton-borrar" id="btnBorrarTodo">🗑️ Borrar todos los registros</button>
+        <p class="aj-msg" id="borrarMsg" role="status"></p>
       </div>
     </section>
   </main>
@@ -1149,6 +1209,122 @@ function alerta(accion) {
 }
 $("btnAlerta").onclick = () => alerta("lanzar");
 $("btnAlertaStop").onclick = () => alerta("detener");
+
+
+/* ---------- 🧹 Borrar todos los registros ---------- */
+$("btnBorrarTodo").onclick = async () => {
+  if (!confirm("¿Estás seguro de BORRAR todos los registros?\nSe borran invitados, puntos, escaneos, canjes y retos. Tus códigos QR se quedan.")) return;
+  if (!confirm("¿De verdad? Esto NO se puede deshacer.")) return;
+  const pal = prompt("Para confirmar escribe la palabra BORRAR y presiona OK:");
+  if (pal === null) return;
+  if (pal.trim().toUpperCase() !== "BORRAR") { alert("No escribiste BORRAR. No se borró nada."); return; }
+  const b = $("btnBorrarTodo"); b.disabled = true; b.textContent = "Borrando…"; $("borrarMsg").className = "aj-msg"; $("borrarMsg").textContent = "";
+  try {
+    const o = await (await fetch(API_POSADA + "?" + new URLSearchParams({ api: "borrarTodo", llave: LLAVE_ADMIN, palabra: "BORRAR" }))).json();
+    if (!o.ok) throw new Error(o.error || (o.denegado ? "No autorizado: revisa que el Apps Script esté publicado con la versión nueva." : "No se pudo borrar."));
+    let mural = "";
+    if ($("borrarMural").checked) {
+      try {
+        const SB = { url: "https://gdmbgqpnkixahyrnbnwg.supabase.co", key: "sb_publishable_yklpyDTvFTVefjXAu3XdXA_DZdtyWgR" };
+        const r = await fetch(SB.url + "/rest/v1/mural_fotos?oculto=eq.false", { method: "PATCH", headers: { apikey: SB.key, "Content-Type": "application/json", Prefer: "return=minimal" }, body: JSON.stringify({ oculto: true }) });
+        mural = r.ok ? " El mural quedó vacío." : " (No se pudo vaciar el mural; hazlo desde el panel del mural.)";
+      } catch (e) { mural = " (No se pudo vaciar el mural; hazlo desde el panel del mural.)"; }
+    }
+    const c = o.borrados || {};
+    $("borrarMsg").className = "aj-msg ok";
+    $("borrarMsg").textContent = "✅ Listo: se borraron " + (c.Jugadores || 0) + " invitados, " + (c.Registro || 0) + " movimientos y " + (c.Retos || 0) + " retos." + mural + " Los celulares se limpian solos en unos segundos.";
+    RETOS_ADM = []; JUG = []; jugSel = null; pintarJugadores(); pintarSel(); if (typeof pintarRetos === "function") pintarRetos(); badge("retos", "");
+  } catch (e) { $("borrarMsg").className = "aj-msg err"; $("borrarMsg").textContent = e.message; }
+  b.disabled = false; b.textContent = "🗑️ Borrar todos los registros";
+};
+
+/* ---------- 📋 Lista de retos (catálogo) ---------- */
+const IDEAS_RETOS = [
+  ["🎅","Tómate una foto imitando a Santa Claus."],["🧦","Tómate una foto con un calcetín o algo navideño en la mano."],["🍫","Tómate una foto con un chocolate o bebida caliente."],
+  ["🎀","Tómate una foto con un moño en la cabeza."],["👑","Tómate una foto con una corona o algo en la cabeza."],["🧑‍🤝‍🧑","Tómate una foto con alguien con quien casi no platicas."],
+  ["😎","Tómate una foto con lentes de sol."],["🪩","Tómate una foto haciendo tu mejor paso de baile."],["🍰","Tómate una foto con el postre."],["🧤","Tómate una foto con guantes, bufanda o gorro."],
+  ["🎤","Tómate una foto cantando con un micrófono imaginario."],["🤳","Tómate una selfie con 5 personas o más."],["🫂","Tómate una foto en un abrazo grupal."],["🙌","Tómate una foto celebrando con las manos arriba."],
+  ["😮","Tómate una foto con cara de sorpresa."],["🌟","Tómate una foto señalando la estrella del árbol."],["🍬","Tómate una foto con un bastón de caramelo o dulce navideño."],["🎁","Tómate una foto envolviendo o abrazando un regalo."],
+  ["📦","Tómate una foto junto a la caja de regalo más grande."],["🐑","Tómate una foto junto al nacimiento."],["🌠","Tómate una foto pidiendo un deseo."],["👨‍👩‍👧‍👦","Tómate una foto con tres generaciones de la familia."],
+  ["🤠","Tómate una foto con un sombrero."],["💪","Tómate una foto haciendo músculos con alguien."],["🦸","Tómate una foto en pose de superhéroe."],["🧸","Tómate una foto con un peluche navideño."],
+  ["👟","Tómate una foto mostrando tus zapatos más navideños."],["🎶","Tómate una foto tocando un instrumento (real o imaginario)."],["😜","Tómate una foto sacando la lengua con alguien."],["🎨","Tómate una foto con algo hecho a mano."],
+  ["🍽️","Tómate una foto compartiendo comida con alguien."],["📷","Tómate una foto tomándole una foto a otra persona."],["🎄","Tómate una foto debajo del árbol de Navidad."],["❤️","Tómate una foto con tu persona favorita de la posada."],
+  ["🕺","Tómate una foto haciendo un paso de cumbia."],["🤝","Tómate una foto dándole la mano a alguien como si cerraran un trato."],["🧑‍🎄","Tómate una foto con alguien que traiga algo rojo."],["🧊","Tómate una foto con algo blanco como la nieve."]
+];
+let CAT = [], catOriginal = [];
+$("btnCatalogo").onclick = () => { const e = $("catEditor"); if (!e.hidden) { e.hidden = true; $("btnCatalogo").textContent = "📋 Ver lista de retos"; return; } cargarCatalogo(); };
+function cargarCatalogo() {
+  $("btnCatalogo").disabled = true; $("btnCatalogo").textContent = "Cargando…";
+  fetch(API_POSADA + "?" + new URLSearchParams({ api: "retosCatalogo", llave: LLAVE_ADMIN })).then(r => r.json()).then(o => {
+    $("btnCatalogo").disabled = false;
+    if (!o || !o.lista) { $("btnCatalogo").textContent = "📋 Ver lista de retos"; alert("No se pudo leer la lista. Revisa que el Apps Script esté publicado con la versión nueva."); return; }
+    CAT = o.lista.map(x => ({ icono: x.icono, texto: x.texto, unico: !!x.unico, asignados: x.asignados || 0 }));
+    catOriginal = JSON.stringify(CAT.map(x => [x.icono, x.texto, x.unico]));
+    $("catEditor").hidden = false; $("btnCatalogo").textContent = "🙈 Ocultar lista";
+    $("catMsg").textContent = ""; pintarCatalogo(o.personalizado);
+  }).catch(() => { $("btnCatalogo").disabled = false; $("btnCatalogo").textContent = "📋 Ver lista de retos"; alert("Sin conexión."); });
+}
+function escA(s) { return String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;"); }
+function pintarCatalogo(personalizado) {
+  const asign = CAT.filter(x => x.asignados).length;
+  $("catInfo").textContent = CAT.length + " retos · " + asign + " ya asignados" + (personalizado === undefined ? "" : (personalizado ? " · lista personalizada" : " · lista original"));
+  $("catLista").innerHTML = CAT.map((x, i) => `<div class="cat-fila${x.nuevo ? " nuevo" : ""}" data-i="${i}">
+      <span class="cat-num">${i + 1}</span>
+      <input type="text" class="ico" value="${escA(x.icono)}" aria-label="Ícono del reto ${i + 1}" maxlength="8">
+      <input type="text" class="txt" value="${escA(x.texto)}" aria-label="Texto del reto ${i + 1}" maxlength="140" placeholder="Escribe el reto…">
+      <label class="cat-uno"><input type="checkbox" ${x.unico ? "checked" : ""}> Solo 1 persona</label>
+      ${x.asignados ? `<span class="cat-uso">👤 ${x.asignados} asignado${x.asignados === 1 ? "" : "s"}</span>` : "<span></span>"}
+      <span class="cat-btns"><button type="button" class="cat-btn" data-a="azar" title="Sugerir otro reto al azar" aria-label="Sugerir otro reto al azar">🎲</button><button type="button" class="cat-btn" data-a="quitar" title="Quitar este reto" aria-label="Quitar este reto">🗑️</button></span></div>`).join("");
+  $("catLista").querySelectorAll(".cat-fila").forEach(f => {
+    const i = +f.getAttribute("data-i");
+    f.querySelector(".ico").oninput = e => { CAT[i].icono = e.target.value; };
+    f.querySelector(".txt").oninput = e => { CAT[i].texto = e.target.value; };
+    f.querySelector(".cat-uno input").onchange = e => { CAT[i].unico = e.target.checked; };
+    f.querySelector('[data-a="azar"]').onclick = () => { const n = ideaNueva(); if (n) { CAT[i].icono = n[0]; CAT[i].texto = n[1]; CAT[i].nuevo = true; pintarCatalogo(); } };
+    f.querySelector('[data-a="quitar"]').onclick = () => {
+      if (CAT[i].asignados && !confirm("Este reto ya lo tiene " + CAT[i].asignados + " invitado(s). Si lo quitas, ellos lo conservan, pero ya no se asignará a nadie más. ¿Quitarlo?")) return;
+      CAT.splice(i, 1); pintarCatalogo();
+    };
+  });
+}
+function ideaNueva() {
+  const usados = new Set(CAT.map(x => x.texto.trim()));
+  const libres = IDEAS_RETOS.filter(x => !usados.has(x[1]));
+  return libres.length ? libres[Math.floor(Math.random() * libres.length)] : null;
+}
+$("catAgregar").onclick = () => { CAT.push({ icono: "📸", texto: "", unico: false, asignados: 0, nuevo: true }); pintarCatalogo();
+  const f = $("catLista").lastElementChild; f.scrollIntoView({ block: "nearest" }); f.querySelector(".txt").focus(); };
+$("catAzar").onclick = () => {
+  if (!confirm("¿Generar una lista nueva al azar?\nSe cambian los retos que nadie tiene asignado; los asignados se quedan igual.")) return;
+  const fijos = CAT.filter(x => x.asignados), cuantos = Math.max(20, CAT.length) - fijos.length;
+  const usados = new Set(fijos.map(x => x.texto));
+  const fuente = IDEAS_RETOS.concat(CAT.filter(x => !x.asignados).map(x => [x.icono, x.texto])).filter(x => !usados.has(x[1]));
+  for (let i = fuente.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [fuente[i], fuente[j]] = [fuente[j], fuente[i]]; }
+  const vistos = new Set(); const nuevos = [];
+  fuente.forEach(x => { if (nuevos.length < cuantos && !vistos.has(x[1])) { vistos.add(x[1]); nuevos.push({ icono: x[0], texto: x[1], unico: /tía|tío/.test(x[1]), asignados: 0, nuevo: true }); } });
+  CAT = fijos.concat(nuevos); pintarCatalogo();
+  $("catMsg").className = "aj-msg"; $("catMsg").textContent = "🎲 Lista nueva generada. Revísala y toca 💾 Guardar lista para aplicarla.";
+};
+$("catOriginal").onclick = () => {
+  if (!confirm("¿Regresar a los 30 retos originales?")) return;
+  fetch(API_POSADA + "?" + new URLSearchParams({ api: "retosGuardar", llave: LLAVE_ADMIN, lista: "original" })).then(r => r.json()).then(o => {
+    if (!o.lista) { alert(o.error || "No se pudo."); return; }
+    CAT = o.lista.map(x => ({ icono: x.icono, texto: x.texto, unico: !!x.unico, asignados: x.asignados || 0 })); pintarCatalogo(false);
+    $("catMsg").className = "aj-msg ok"; $("catMsg").textContent = "↺ Se restauraron los retos originales.";
+  }).catch(() => alert("Sin conexión."));
+};
+$("catGuardar").onclick = () => {
+  const lista = CAT.map(x => [x.icono.trim() || "📸", x.texto.trim(), x.unico ? 1 : 0]).filter(x => x[1]);
+  if (!lista.length) { alert("La lista no puede quedar vacía."); return; }
+  const rep = lista.map(x => x[1].toLowerCase()); if (new Set(rep).size !== rep.length) { alert("Hay retos repetidos. Cambia o quita los duplicados."); return; }
+  $("catGuardar").disabled = true; $("catMsg").className = "aj-msg"; $("catMsg").textContent = "Guardando…";
+  fetch(API_POSADA + "?" + new URLSearchParams({ api: "retosGuardar", llave: LLAVE_ADMIN, lista: JSON.stringify(lista) })).then(r => r.json()).then(o => {
+    $("catGuardar").disabled = false;
+    if (!o.lista) { $("catMsg").className = "aj-msg err"; $("catMsg").textContent = o.error || "No se pudo guardar."; return; }
+    CAT = o.lista.map(x => ({ icono: x.icono, texto: x.texto, unico: !!x.unico, asignados: x.asignados || 0 })); pintarCatalogo(true);
+    $("catMsg").className = "aj-msg ok"; $("catMsg").textContent = "💾 ¡Lista guardada! " + CAT.length + " retos. Los nuevos invitados recibirán retos de esta lista.";
+  }).catch(() => { $("catGuardar").disabled = false; $("catMsg").className = "aj-msg err"; $("catMsg").textContent = "Sin conexión. Intenta de nuevo."; });
+};
 
 function cambiar(k, b) {
   const x = INTERR.find(y => y.k === k) || { pOn: "¿Cerrar TODOS los códigos QR?\nAl escanear cualquier código saldrá: ¡La posada terminó! Ya no puedes sumar más puntos.", pOff: "¿Volver a abrir los códigos QR?" },
