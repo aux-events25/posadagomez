@@ -737,7 +737,7 @@ var TACHE = '<svg viewBox="0 0 40 40" aria-hidden="true"><defs><pattern id="bast
   '<circle cx="18" cy="19" r="2.6" fill="#c8102e"/><circle cx="22" cy="19" r="2.6" fill="#9a0b22"/></svg>';
 // Link de la app de invitados (repositorio proximamente)
 var URL_APP_INVITADOS = 'https://aux-events25.github.io/proximamente/';
-var ICONOS = { ok: '🎁', repetido: TACHE, expirado: '⏰', agotado: '🦌', invalido: '❓', error: '⚠️', hola: '🎅', terminado: '🔔', vacio: '📦', ocupado: '⏳' };
+var ICONOS = { ok: '🎁', repetido: TACHE, expirado: '⏰', agotado: '🦌', invalido: '❓', error: '⚠️', hola: '🎅', terminado: '🔔', vacio: '📦', ocupado: '⏳', rmfin: '🎁' };
 var AVISOS = { ok: 'Último código', repetido: 'Ese QR ya lo tenías', expirado: 'Ese código ya cerró',
                agotado: 'Ese código ya se agotó', invalido: 'Ese código no es válido para la dinámica',
                terminado: 'La posada terminó: usa tus puntos en la subasta',
@@ -747,9 +747,9 @@ var AVISOS = { ok: 'Último código', repetido: 'Ese QR ya lo tenías', expirado
 // Muestra el resultado del escaneo unos segundos y luego lleva a la pantalla de puntos
 function resultado(o) {
   var tipo = o.tipo || 'hola';
-  if (tipo === 'repetido') { o.titulo = 'Ya tienes este QR'; o.sub = 'Cada QR suma una sola vez.'; }
+  if (tipo === 'repetido' && !/din[aá]mica|regalo/i.test(o.titulo || '')) { o.titulo = 'Ya tienes este QR'; o.sub = 'Cada QR suma una sola vez.'; }
   if (tipo === 'ok' && (!o.sub || o.sub === '¡Sigue buscando!')) o.sub = '¡Sigue sumando puntos!';
-  verEscena(tipo);
+  verEscena(tipo === 'repetido' && /din[aá]mica/i.test(o.titulo || '') ? 'normal' : tipo);
   var h = '<div class="estado grande ' + tipo + '" role="status">' +
     (tipo === 'ok' ? '<span class="timbre" aria-hidden="true">🎄</span>' : '') +
     '<div class="ico">' + (ICONOS[tipo] || '⭐') + '</div>' +
