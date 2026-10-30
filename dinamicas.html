@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <title>Dinámicas navideñas · Posada Gómez</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="apple-touch-icon" sizes="180x180" href="icono-dinamicas.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icono-dinamicas-512.png">
+<meta name="apple-mobile-web-app-title" content="Dinámicas">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="description" content="Juegos y dinámicas navideñas para proyectar: equipos, ruleta de premios, tómbola, memorama, piñata, villancicos y mural de fotos.">
 <meta name="theme-color" content="#0c3b29">
 <meta name="mobile-web-app-capable" content="yes">
@@ -416,6 +421,47 @@ body.jugando-portal .portal,body.jugando-portal #nieve,body.jugando-portal .esfe
 .pin-sec{border:2px solid var(--rojo);background:#fff;color:var(--rojo);border-radius:999px;padding:11px;font:900 16px Nunito,sans-serif;cursor:pointer}
 .pin-caja.mal{animation:temblor .35s}
 @keyframes temblor{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+
+/* ====== Barra superior de la portada ====== */
+.barra-top{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1200px;margin:0 auto;
+  padding:calc(10px + env(safe-area-inset-top)) 16px 10px;background:linear-gradient(rgba(12,59,41,.92),rgba(12,59,41,.75));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(255,255,255,.08)}
+.marca{font:900 17px Nunito,sans-serif;color:#fff;letter-spacing:.02em}
+.btn-admin-top{display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(242,193,78,.7);background:rgba(255,255,255,.08);color:#fff3c4;border-radius:999px;
+  padding:9px 16px;font:900 15px Nunito,sans-serif;cursor:pointer;transition:background .2s}
+.btn-admin-top:hover{background:rgba(242,193,78,.18)}
+.btn-admin-top:focus-visible,.adm-tile:focus-visible,.adm-volver:focus-visible,.adm-salir:focus-visible{outline:3px solid var(--oro);outline-offset:3px}
+@media (max-width:420px){.btn-admin-top span{display:none}.btn-admin-top{padding:9px 13px;font-size:18px}}
+/* ====== Vista de administración ====== */
+body.en-admin #portal,body.en-admin #esferas{display:none}
+.adm-vista{min-height:100vh;position:relative;z-index:2}
+.adm-vista[hidden]{display:none}
+.adm-barra{position:sticky;top:0;z-index:60;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;
+  background:rgba(12,59,41,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.1)}
+.adm-barra h1{margin:0;text-align:center;font:900 18px Nunito,sans-serif;color:#fff;white-space:nowrap}
+.adm-volver{justify-self:start;border:0;background:none;color:#ffe08a;font:900 17px Nunito,sans-serif;cursor:pointer;padding:6px 4px}
+.adm-salir{justify-self:end;border:1.5px solid rgba(255,255,255,.35);background:none;color:#fff;border-radius:999px;padding:7px 14px;font:800 14px Nunito,sans-serif;cursor:pointer}
+.adm-cuerpo{max-width:860px;margin:0 auto;padding:18px 16px 60px}
+.adm-hola{margin:4px 2px 10px;font:800 17px Nunito,sans-serif;color:#e3f1e8}
+.adm-grupo{margin:22px 4px 10px;font:900 13px Nunito,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--oro)}
+.adm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.adm-tile{position:relative;display:flex;align-items:center;gap:14px;width:100%;text-align:left;border:0;cursor:pointer;background:var(--nieve);color:var(--tinta);
+  border-radius:20px;padding:16px 16px;box-shadow:0 10px 22px -14px rgba(0,0,0,.7);transition:transform .15s,box-shadow .15s}
+.adm-tile:hover{transform:translateY(-2px);box-shadow:0 16px 28px -14px rgba(0,0,0,.75)}
+.adm-ico{flex:none;width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:26px;background:var(--c);box-shadow:inset 0 -4px 0 rgba(0,0,0,.15)}
+.adm-txt{flex:1;min-width:0}.adm-txt b{display:block;font:900 17px Nunito,sans-serif}.adm-txt small{display:block;margin-top:2px;font:700 13px/1.35 Nunito,sans-serif;color:var(--suave)}
+.adm-flecha{font:900 26px Nunito,sans-serif;color:#c9bfb5}
+.adm-badge{display:inline-block;margin-top:7px;border-radius:999px;padding:3px 10px;font:900 11px Nunito,sans-serif;letter-spacing:.04em;background:#6e5f61;color:#fff}
+.adm-badge[hidden]{display:none}
+.adm-badge.on{background:var(--hoja2)}.adm-badge.alerta{background:var(--rojo)}
+.adm-panel{animation:entraPanel .25s ease}
+.adm-panel[hidden]{display:none}
+@keyframes entraPanel{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.adm-panel-cab{display:flex;align-items:center;gap:14px;margin:4px 2px 16px}
+.adm-panel-cab h2{margin:0;font:900 24px Nunito,sans-serif;color:#fff}.adm-panel-cab p{margin:2px 0 0;font:700 14px Nunito,sans-serif;color:#cfe5d8}
+.adm-panel .panel-app{max-width:none}
+.adm-panel .juegos{margin-top:4px}
+@media (prefers-reduced-motion:reduce){.adm-panel,.adm-tile{animation:none;transition:none}}
 </style>
 </head>
 <body>
@@ -455,6 +501,10 @@ body.jugando-portal .portal,body.jugando-portal #nieve,body.jugando-portal .esfe
 </svg>
 
 <main class="portal" id="portal">
+  <nav class="barra-top" aria-label="Navegación">
+    <span class="marca">🎄 Posada Gómez</span>
+    <button type="button" class="btn-admin-top" id="btnAdmin" aria-label="Administración y herramientas">⚙️ <span>Administración</span></button>
+  </nav>
   <header class="portada">
     <svg class="escena" id="escena-normal" viewBox="-92 0 452 238" role="img" aria-label="Santa Claus saludando junto a un pino navideño y un reno">
     <!-- Suelo nevado -->
@@ -564,72 +614,6 @@ body.jugando-portal .portal,body.jugando-portal #nieve,body.jugando-portal .esfe
     <div class="juegos" id="juegos"></div>
   </section>
 
-  <section class="seccion" aria-labelledby="tAdmin">
-    <div class="seccion-cab"><h2 id="tAdmin">🔐 Administración</h2><p>Solo para anfitriones: herramientas, subasta, tablero y fondo para el proyector</p></div>
-    <div class="admin-cerrado" id="adminCerrado">
-      <span class="ic" aria-hidden="true">🔒</span>
-      <p>Esta sección está protegida con PIN.</p>
-      <button type="button" class="boton-admin" id="btnAdmin">Entrar con PIN</button>
-    </div>
-    <div id="adminAbierto" hidden>
-      <h3 class="sub-admin">📱 App de invitados</h3>
-      <div class="panel-app" id="panelApp">
-        <p class="panel-estado" id="modoTxt">Revisando el estado de la app…</p>
-      </div>
-      <h3 class="sub-admin">🔔 Alerta navideña</h3>
-      <div class="panel-app panel-pad">
-        <p class="panel-txt">Lanza el video de la alerta en la pantalla del <b>mural de fotos</b> (o en el fondo de Posada Gómez). Se reproduce en pantalla completa y con sonido en unos 3 segundos.</p>
-        <div class="aj-fila"><button type="button" class="boton-admin alerta-btn" id="btnAlerta">🔔 ¡Lanzar alerta navideña!</button>
-          <button type="button" class="boton-admin blanco-adm" id="btnAlertaStop">⏹ Detener alerta</button></div>
-        <p class="aj-msg" id="alertaMsg" role="status"></p>
-        <p class="panel-txt" style="margin:8px 0 0;font-size:13px">Para que funcione: en la computadora del proyector abre <b>Herramientas → Mural navideño → pantalla del mural</b> y déjalo abierto. El video se llama <b>alerta.mp4</b> y va en el repositorio posadagomez.</p>
-      </div>
-
-      <h3 class="sub-admin">🛑 Cierre de códigos QR</h3>
-      <div class="panel-app" id="panelCierre"><p class="panel-estado">Revisando…</p></div>
-
-      <h3 class="sub-admin">🔍 Códigos QR</h3>
-      <div class="panel-app panel-pad">
-        <p class="panel-txt">Revisa los códigos de tu hoja <b>QRs</b>: puntos, cuántas personas lo han escaneado y si siguen activos. Toca uno para verlo en grande.</p>
-        <button type="button" class="boton-admin" id="btnQRs">🔍 Ver mis códigos QR</button>
-        <div class="qr-grid" id="qrGrid"></div>
-      </div>
-
-      <h3 class="sub-admin">🤳 Retos con foto</h3>
-      <div class="panel-app panel-pad">
-        <p class="panel-txt">Revisa las fotos de los retos. Si la apruebas, el invitado gana <b>100 puntos</b>; si no, escríbele qué le falta y podrá volver a intentarlo.</p>
-        <div class="aj-fila"><button type="button" class="boton-admin" id="btnRetos">🤳 Revisar retos</button></div>
-        <div class="rt-filtros" id="rtFiltros" hidden role="tablist" aria-label="Filtrar retos">
-          <button type="button" class="chip-f" data-f="revision" aria-pressed="true">⏳ Por revisar <b id="rtNRev">0</b></button>
-          <button type="button" class="chip-f" data-f="rechazado" aria-pressed="false">📝 Con comentario</button>
-          <button type="button" class="chip-f" data-f="aprobado" aria-pressed="false">✅ Aprobados</button>
-          <button type="button" class="chip-f" data-f="pendiente" aria-pressed="false">📷 Sin foto</button>
-        </div>
-        <div class="rt-lista" id="rtLista"></div>
-      </div>
-
-      <h3 class="sub-admin">⭐ Puntos manuales</h3>
-      <div class="panel-app panel-pad">
-        <p class="panel-txt">Da o quita puntos a un invitado (por ejemplo, si ganó un concurso o hubo un error).</p>
-        <input class="adm-campo" id="ajBuscar" type="search" placeholder="Busca por apodo o ID…" autocomplete="off" aria-label="Buscar invitado">
-        <div class="aj-lista" id="ajLista" role="listbox" aria-label="Invitados"><p class="panel-txt">Cargando invitados…</p></div>
-        <div class="aj-form" id="ajForm" hidden>
-          <p class="aj-sel" id="ajSel"></p>
-          <div class="aj-fila"><input class="adm-campo" id="ajPuntos" type="number" inputmode="numeric" min="1" step="1" placeholder="Puntos" aria-label="Puntos">
-            <input class="adm-campo" id="ajMotivo" maxlength="80" placeholder="Motivo (opcional)" aria-label="Motivo"></div>
-          <div class="aj-fila"><button type="button" class="boton-admin verde" id="ajDar">➕ Dar puntos</button><button type="button" class="boton-admin" id="ajQuitar">➖ Quitar puntos</button></div>
-          <p class="aj-msg" id="ajMsg" role="status"></p>
-        </div>
-      </div>
-
-      <h3 class="sub-admin">🛠️ Herramientas para la fiesta</h3>
-      <div class="juegos" id="herramientas"></div>
-      <h3 class="sub-admin">🎁 Subasta y resultados</h3>
-      <div class="juegos" id="adminPaginas"></div>
-      <p class="centro"><button type="button" class="salir-admin" id="btnSalir">🔒 Cerrar administración</button></p>
-    </div>
-  </section>
-
   <section class="seccion" aria-labelledby="tProg">
     <div class="seccion-cab"><h2 id="tProg">🗓️ Así puedes armar la noche</h2><p>Un orden sugerido de unas 2 horas</p></div>
     <div class="programa">
@@ -646,6 +630,98 @@ body.jugando-portal .portal,body.jugando-portal #nieve,body.jugando-portal .esfe
   <p class="pie-portal">🎄 ¡Feliz Navidad y próspero Año Nuevo! 🎁</p>
 </main>
 
+<div class="adm-vista" id="adminAbierto" hidden>
+  <header class="adm-barra">
+    <button type="button" class="adm-volver" id="admVolver">‹ <span id="admVolverTxt">Dinámicas</span></button>
+    <h1 id="admTitulo">⚙️ Administración</h1>
+    <button type="button" class="adm-salir" id="btnSalir" aria-label="Cerrar administración">🔒 Salir</button>
+  </header>
+  <main class="adm-cuerpo">
+    <section id="admInicio">
+      <p class="adm-hola">Hola, anfitrión 🎅 ¿Qué quieres hacer?</p>
+      <h2 class="adm-grupo">Durante la posada</h2>
+      <div class="adm-grid"><button type="button" class="adm-tile" data-panel="alerta" style="--c:#c8102e"><span class="adm-ico" aria-hidden="true">🔔</span>
+          <span class="adm-txt"><b>Alerta navideña</b><small>Lanza el video sorpresa en la pantalla del mural</small><span class="adm-badge" id="badge-alerta" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button><button type="button" class="adm-tile" data-panel="retos" style="--c:#5b6ee1"><span class="adm-ico" aria-hidden="true">🤳</span>
+          <span class="adm-txt"><b>Retos con foto</b><small>Aprueba o comenta las fotos de los bonus</small><span class="adm-badge" id="badge-retos" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button><button type="button" class="adm-tile" data-panel="puntos" style="--c:#e0a92e"><span class="adm-ico" aria-hidden="true">⭐</span>
+          <span class="adm-txt"><b>Puntos manuales</b><small>Da o quita puntos a un invitado</small><span class="adm-badge" id="badge-puntos" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button><button type="button" class="adm-tile" data-panel="subasta" style="--c:#9a0b22"><span class="adm-ico" aria-hidden="true">🔨</span>
+          <span class="adm-txt"><b>Subasta y resultados</b><small>Subasta, tablero de ganadores y fondo con cronómetro</small><span class="adm-badge" id="badge-subasta" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button></div>
+      <h2 class="adm-grupo">Pantallas y herramientas</h2>
+      <div class="adm-grid"><button type="button" class="adm-tile" data-panel="herramientas" style="--c:#1f7a4d"><span class="adm-ico" aria-hidden="true">🛠️</span>
+          <span class="adm-txt"><b>Herramientas</b><small>Tómbola de equipos, ruleta de premios y mural de fotos</small><span class="adm-badge" id="badge-herramientas" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button></div>
+      <h2 class="adm-grupo">Configuración</h2>
+      <div class="adm-grid"><button type="button" class="adm-tile" data-panel="app" style="--c:#2f9e62"><span class="adm-ico" aria-hidden="true">📱</span>
+          <span class="adm-txt"><b>App de invitados</b><small>Mostrar la app y desbloquear escáner, mural, bonus y premios</small><span class="adm-badge" id="badge-app" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button><button type="button" class="adm-tile" data-panel="cierre" style="--c:#6e5f61"><span class="adm-ico" aria-hidden="true">🛑</span>
+          <span class="adm-txt"><b>Cierre de códigos</b><small>"¡La posada terminó!" ahora o a una hora programada</small><span class="adm-badge" id="badge-cierre" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button><button type="button" class="adm-tile" data-panel="qrs" style="--c:#3b5ba5"><span class="adm-ico" aria-hidden="true">🔍</span>
+          <span class="adm-txt"><b>Códigos QR</b><small>Revisa tus códigos y muéstralos en grande</small><span class="adm-badge" id="badge-qrs" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button></div>
+    </section>
+    <section class="adm-panel" id="panel-app" hidden aria-labelledby="pt-app">
+      <div class="adm-panel-cab"><span class="adm-ico" style="--c:#2f9e62" aria-hidden="true">📱</span><div><h2 id="pt-app">App de invitados</h2><p>Mostrar la app y desbloquear escáner, mural, bonus y premios</p></div></div>
+      <div class="panel-app" id="panelApp">
+        <p class="panel-estado" id="modoTxt">Revisando el estado de la app…</p>
+      </div>
+    </section>
+    <section class="adm-panel" id="panel-alerta" hidden aria-labelledby="pt-alerta">
+      <div class="adm-panel-cab"><span class="adm-ico" style="--c:#c8102e" aria-hidden="true">🔔</span><div><h2 id="pt-alerta">Alerta navideña</h2><p>Lanza el video sorpresa en la pantalla del mural</p></div></div>
+      <div class="panel-app panel-pad">
+        <p class="panel-txt">Lanza el video de la alerta en la pantalla del <b>mural de fotos</b> (o en el fondo de Posada Gómez). Se reproduce en pantalla completa y con sonido en unos 3 segundos.</p>
+        <div class="aj-fila"><button type="button" class="boton-admin alerta-btn" id="btnAlerta">🔔 ¡Lanzar alerta navideña!</button>
+          <button type="button" class="boton-admin blanco-adm" id="btnAlertaStop">⏹ Detener alerta</button></div>
+        <p class="aj-msg" id="alertaMsg" role="status"></p>
+        <p class="panel-txt" style="margin:8px 0 0;font-size:13px">Para que funcione: en la computadora del proyector abre <b>Herramientas → Mural navideño → pantalla del mural</b> y déjalo abierto. El video se llama <b>alerta.mp4</b> y va en el repositorio posadagomez.</p>
+      </div>
+    </section>
+    <section class="adm-panel" id="panel-retos" hidden aria-labelledby="pt-retos">
+      <div class="adm-panel-cab"><span class="adm-ico" style="--c:#5b6ee1" aria-hidden="true">🤳</span><div><h2 id="pt-retos">Retos con foto</h2><p>Aprueba o comenta las fotos de los bonus</p></div></div>
+      <div class="panel-app panel-pad">
+        <p class="panel-txt">Revisa las fotos de los retos. Si la apruebas, el invitado gana <b>100 puntos</b>; si no, escríbele qué le falta y podrá volver a intentarlo.</p>
+        <div class="aj-fila"><button type="button" class="boton-admin" id="btnRetos">🤳 Revisar retos</button></div>
+        <div class="rt-filtros" id="rtFiltros" hidden role="tablist" aria-label="Filtrar retos">
+          <button type="button" class="chip-f" data-f="revision" aria-pressed="true">⏳ Por revisar <b id="rtNRev">0</b></button>
+          <button type="button" class="chip-f" data-f="rechazado" aria-pressed="false">📝 Con comentario</button>
+          <button type="button" class="chip-f" data-f="aprobado" aria-pressed="false">✅ Aprobados</button>
+          <button type="button" class="chip-f" data-f="pendiente" aria-pressed="false">📷 Sin foto</button>
+        </div>
+        <div class="rt-lista" id="rtLista"></div>
+      </div>
+    </section>
+    <section class="adm-panel" id="panel-puntos" hidden aria-labelledby="pt-puntos">
+      <div class="adm-panel-cab"><span class="adm-ico" style="--c:#e0a92e" aria-hidden="true">⭐</span><div><h2 id="pt-puntos">Puntos manuales</h2><p>Da o quita puntos a un invitado</p></div></div>
+      <div class="panel-app panel-pad">
+        <p class="panel-txt">Da o quita puntos a un invitado (por ejemplo, si ganó un concurso o hubo un error).</p>
+        <input class="adm-campo" id="ajBuscar" type="search" placeholder="Busca por apodo o ID…" autocomplete="off" aria-label="Buscar invitado">
+        <div class="aj-lista" id="ajLista" role="listbox" aria-label="Invitados"><p class="panel-txt">Cargando invitados…</p></div>
+        <div class="aj-form" id="ajForm" hidden>
+          <p class="aj-sel" id="ajSel"></p>
+          <div class="aj-fila"><input class="adm-campo" id="ajPuntos" type="number" inputmode="numeric" min="1" step="1" placeholder="Puntos" aria-label="Puntos">
+            <input class="adm-campo" id="ajMotivo" maxlength="80" placeholder="Motivo (opcional)" aria-label="Motivo"></div>
+          <div class="aj-fila"><button type="button" class="boton-admin verde" id="ajDar">➕ Dar puntos</button><button type="button" class="boton-admin" id="ajQuitar">➖ Quitar puntos</button></div>
+          <p class="aj-msg" id="ajMsg" role="status"></p>
+        </div>
+      </div>
+    </section>
+    <section class="adm-panel" id="panel-subasta" hidden aria-labelledby="pt-subasta">
+      <div class="adm-panel-cab"><span class="adm-ico" style="--c:#9a0b22" aria-hidden="true">🔨</span><div><h2 id="pt-subasta">Subasta y resultados</h2><p>Subasta, tablero de ganadores y fondo con cronómetro</p></div></div>
+      <div class="juegos" id="adminPaginas"></div>
+    </section>
+    <section class="adm-panel" id="panel-herramientas" hidden aria-labelledby="pt-herramientas">
+      <div class="adm-panel-cab"><span class="adm-ico" style="--c:#1f7a4d" aria-hidden="true">🛠️</span><div><h2 id="pt-herramientas">Herramientas</h2><p>Tómbola de equipos, ruleta de premios y mural de fotos</p></div></div>
+      <div class="juegos" id="herramientas"></div>
+    </section>
+    <section class="adm-panel" id="panel-cierre" hidden aria-labelledby="pt-cierre">
+      <div class="adm-panel-cab"><span class="adm-ico" style="--c:#6e5f61" aria-hidden="true">🛑</span><div><h2 id="pt-cierre">Cierre de códigos</h2><p>"¡La posada terminó!" ahora o a una hora programada</p></div></div>
+      <div class="panel-app" id="panelCierre"><p class="panel-estado">Revisando…</p></div>
+    </section>
+    <section class="adm-panel" id="panel-qrs" hidden aria-labelledby="pt-qrs">
+      <div class="adm-panel-cab"><span class="adm-ico" style="--c:#3b5ba5" aria-hidden="true">🔍</span><div><h2 id="pt-qrs">Códigos QR</h2><p>Revisa tus códigos y muéstralos en grande</p></div></div>
+      <div class="panel-app panel-pad">
+        <p class="panel-txt">Revisa los códigos de tu hoja <b>QRs</b>: puntos, cuántas personas lo han escaneado y si siguen activos. Toca uno para verlo en grande.</p>
+        <button type="button" class="boton-admin" id="btnQRs">🔍 Ver mis códigos QR</button>
+        <div class="qr-grid" id="qrGrid"></div>
+      </div>
+    </section>
+  </main>
+</div>
+<div id="adminCerrado" hidden></div>
 <div class="reproductor" id="reproductor" hidden></div>
 <div class="qr-modal" id="qrModal" hidden role="dialog" aria-modal="true" aria-labelledby="qrModalT">
   <div class="qr-modal-caja"><h2 id="qrModalT"></h2><img id="qrModalImg" alt=""><p id="qrModalInfo"></p><p class="qr-link" id="qrModalLink"></p>
@@ -868,7 +944,27 @@ let adminOk = false;
 try { adminOk = sessionStorage.getItem("adminPosada") === "1"; } catch (e) {}
 let pendiente = null;
 function esAdmin(id) { const g = CATALOGO.find(x => x.id === id); return g && (g.tipo === "h" || g.tipo === "a" || g.pin); }
-function mostrarAdmin() { $("adminCerrado").hidden = adminOk; $("adminAbierto").hidden = !adminOk; if (adminOk) revisarApp(); }
+function mostrarAdmin() { if (!adminOk) cerrarAdmin(); }
+/* ---------- Navegación: portada ↔ administración ---------- */
+let panelActual = null;
+function abrirAdmin(panel) {
+  document.body.classList.add("en-admin"); $("adminAbierto").hidden = false; window.scrollTo(0, 0);
+  verPanel(panel || null); revisarApp(); cargarRetos(true);
+}
+function cerrarAdmin() { document.body.classList.remove("en-admin"); $("adminAbierto").hidden = true; }
+function verPanel(k) {
+  panelActual = k;
+  $("admInicio").hidden = !!k;
+  document.querySelectorAll(".adm-panel").forEach(s => { s.hidden = s.id !== "panel-" + k; });
+  const t = k ? document.querySelector("#pt-" + k).textContent : "Administración";
+  $("admTitulo").textContent = k ? t : "⚙️ Administración"; $("admVolverTxt").textContent = k ? "Administración" : "Dinámicas";
+  window.scrollTo(0, 0);
+  if (k === "qrs" && !$("qrGrid").children.length) $("btnQRs").click();
+  if (k === "retos") cargarRetos();
+}
+document.querySelectorAll(".adm-tile").forEach(b => b.onclick = () => verPanel(b.getAttribute("data-panel")));
+$("admVolver").onclick = () => { if (panelActual) verPanel(null); else cerrarAdmin(); };
+function badge(k, txt, cls) { const b = $("badge-" + k); if (!b) return; b.hidden = !txt; b.textContent = txt || ""; b.className = "adm-badge" + (cls ? " " + cls : ""); }
 /* ---------- Panel de la app de invitados ---------- */
 const API_POSADA = "https://script.google.com/macros/s/AKfycbz3BdSkfxvH9OzpXBI4hdP0D5GQu6DWrOJOsajLLxBc3F9gvqqaVgL_Pq5Nra9zPg1s/exec";
 const LLAVE_ADMIN = "nGYssD5gtM191l12IdWOC4oc";
@@ -887,6 +983,7 @@ const INTERR = [
 let MODO = null;
 function pintarPanel(m) {
   MODO = m;
+  badge("app", m.app ? "ENCENDIDA" : "APAGADA", m.app ? "on" : ""); badge("cierre", m.terminado ? "CERRADOS" : "ABIERTOS", m.terminado ? "alerta" : "on");
   $("panelApp").innerHTML = INTERR.map(x => `<div class="fila-sw${x.k === "app" ? " principal" : ""}"><div><b>${x.t}</b>
       <small class="${m[x.k] ? "on" : ""}">${m[x.k] ? "ENCENDIDO · " + x.on : "APAGADO · " + x.off}</small></div>
       <button type="button" class="sw" data-k="${x.k}" role="switch" aria-checked="${m[x.k] ? "true" : "false"}" aria-label="${x.t.replace(/^\S+\s/, "")}"><span></span></button></div>`).join("") +
@@ -1003,7 +1100,7 @@ function cargarRetos(silencio) {
     if (!o || o.denegado || !o.retos) { $("rtLista").innerHTML = '<p class="panel-txt">No se pudieron leer los retos. Revisa que el Apps Script esté publicado con la versión nueva.</p>'; return; }
     const escribiendo = document.activeElement && document.activeElement.closest && document.activeElement.closest(".rt-card");
     RETOS_ADM = o.retos; $("rtFiltros").hidden = false;
-    $("rtNRev").textContent = RETOS_ADM.filter(r => r.estado === "revision").length;
+    const nRev = RETOS_ADM.filter(r => r.estado === "revision").length; $("rtNRev").textContent = nRev; badge("retos", nRev ? nRev + " POR REVISAR" : "", "alerta");
     if (!escribiendo) pintarRetos();
   }).catch(() => { $("btnRetos").disabled = false; $("btnRetos").textContent = "🤳 Revisar retos"; });
 }
@@ -1072,15 +1169,15 @@ function revisarPin() {
   if ($("pinCampo").value.trim() === PIN_ADMIN) {
     adminOk = true; try { sessionStorage.setItem("adminPosada", "1"); } catch (e) {}
     const p = pendiente; cerrarPin(); mostrarAdmin();
-    if (p) p(); else document.getElementById("tAdmin").scrollIntoView({ behavior: "smooth" });
+    if (p) p(); else abrirAdmin();
   } else {
     $("pinError").textContent = "PIN incorrecto"; $("pinCampo").value = "";
     const c = document.querySelector(".pin-caja"); c.classList.remove("mal"); void c.offsetWidth; c.classList.add("mal");
     $("pinCampo").focus();
   }
 }
-$("btnAdmin").onclick = () => pedirPin();
-$("btnSalir").onclick = () => { adminOk = false; try { sessionStorage.removeItem("adminPosada"); } catch (e) {} mostrarAdmin(); };
+$("btnAdmin").onclick = () => { if (adminOk) abrirAdmin(); else pedirPin(() => abrirAdmin()); };
+$("btnSalir").onclick = () => { adminOk = false; try { sessionStorage.removeItem("adminPosada"); } catch (e) {} cerrarAdmin(); };
 $("pinEntrar").onclick = revisarPin;
 $("pinCancelar").onclick = () => { cerrarPin(); if (location.hash) { try { history.replaceState(null, "", location.href.split("#")[0]); } catch (e) {} } };
 $("pinCampo").addEventListener("keydown", e => { if (e.key === "Enter") revisarPin(); if (e.key === "Escape") $("pinCancelar").click(); });
