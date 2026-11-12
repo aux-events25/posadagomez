@@ -863,5 +863,11 @@ if (D.codigo) {
   servidor('estado', [clave()], inicio);
 }
 </script>
+<a id="btnMiApp" class="mi-app" href="#">📱 Ir a mi app</a>
+<style>.mi-app{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:50;display:inline-flex;align-items:center;gap:6px;
+  padding:12px 22px;border-radius:999px;background:#fffaf3;color:#c8102e;font:900 17px Nunito,system-ui,sans-serif;text-decoration:none;
+  box-shadow:0 0 0 3px #f2c14e,0 10px 24px rgba(0,0,0,.45)}.mi-app:focus-visible{outline:3px solid #fff;outline-offset:3px}
+body{padding-bottom:84px}</style>
+<script>document.getElementById('btnMiApp').href=URL_APP_INVITADOS;</script>
 </body>
 </html>
