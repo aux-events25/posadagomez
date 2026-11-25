@@ -572,6 +572,8 @@ body.en-admin #portal,body.en-admin #esferas{display:none}
 .cr-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .cr-mbot{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}.cr-mbot .cr-btn{color:#2a1d1f;border-color:#efe3d6;background:#fff}.cr-mbot .cr-btn.prin{color:#fff;background:#c8102e;border-color:#c8102e}.cr-mbot .cr-btn.peligro{color:#7a0a1c}
 @media print{body>*:not(#crono){display:none !important}#crono{position:static;background:#fff;color:#000}.cr-top,.cr-acciones,.cr-bts,.cr-pie,.cr-modal,.cr-volver{display:none !important}.cr-item{box-shadow:none;border:1px solid #ccc}.cr-resumen{display:none}}
+.cr-sync{align-self:center;margin-left:auto;font:800 13px Nunito,sans-serif;color:#cfe8da}.cr-sync.err{color:#ffb3b3}
+.cr-acciones .cr-btn[disabled]{opacity:.5;cursor:wait}
 </style>
 </head>
 <body>
@@ -905,11 +907,13 @@ body.en-admin #portal,body.en-admin #esferas{display:none}
     <div class="cr-acciones">
       <button type="button" class="cr-btn prin" id="crAgregar">➕ Agregar actividad</button>
       <button type="button" class="cr-btn" id="crSugerido">📋 Programa sugerido</button>
-      <button type="button" class="cr-btn" id="crImprimir">🖨️ Imprimir</button>
-      <button type="button" class="cr-btn peligro" id="crVaciar">🗑️ Vaciar</button>
+      <button type="button" class="cr-btn" id="crRestablecer" title="Quita las palomitas y regresa los planes B al plan original">♻️ Restablecer</button>
+      <button type="button" class="cr-btn" id="crPDF">📄 Descargar PDF</button>
+      <button type="button" class="cr-btn peligro" id="crVaciar">🗑️ Eliminar todo</button>
+      <span class="cr-sync" id="crSync" role="status"></span>
     </div>
     <ol class="cr-lista" id="crLista"></ol>
-    <p class="cr-pie">Se guarda solo en esta computadora. Toca el círculo para palomear lo que ya se hizo.</p>
+    <p class="cr-pie">☁️ Se guarda en línea: quien abra esta página (laptop o celular) ve y edita el mismo cronograma. Toca el círculo para palomear lo que ya se hizo.</p>
   </div>
   <div class="cr-modal" id="crModal" hidden role="dialog" aria-modal="true" aria-labelledby="crmTit">
     <form class="cr-caja" id="crForm" onsubmit="return false">
@@ -1365,13 +1369,29 @@ $("gqpFull").onclick = () => { try { if (!document.fullscreenElement) document.d
 document.addEventListener("keydown", e => { if (!$("gqPantalla").hidden && e.key === "Escape") cerrarPantallaGQ(); });
 
 
-/* ---------- 🗓️ Cronograma de la posada (se guarda en esta computadora) ---------- */
+/* ---------- 🗓️ Cronograma de la posada (se guarda en línea, compartido) ---------- */
 const CR_KEY = "cronograma-posada";
 const CR_PERSONAS = ["Tía Chaly","Tío Javi","Ximi","Edgar","Pablo","Barbie","Pollo","Pau","Reginita","Constanza","Vale","Diego","Fer","Javi","Pato","Dani","Lupita","Rodrigo","Maryjo"];
 const CR_EXTRA = [["Llegada y bienvenida","👋"],["Rezo de la posada","🕯️"],["Pedir posada (letanía)","🎶"],["Cena","🍽️"],["Brindis","🥂"],["Intercambio de regalos","🎁"],["Foto grupal","📷"],["Postre y café","☕"],["Cierre y despedida","👋"]];
-let CR = [], crEdit = null;
-function crLeer() { try { CR = JSON.parse(localStorage.getItem(CR_KEY)) || []; } catch (e) { CR = []; } }
-function crGuardar() { try { localStorage.setItem(CR_KEY, JSON.stringify(CR)); } catch (e) {} }
+let CR = [], CRV = 0, crEdit = null, crPoll = 0, crOcupado = false, crUltima = 0;
+const crId = () => "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+function crCache(guardar) { try { if (guardar) localStorage.setItem(CR_KEY, JSON.stringify({ v: CRV, items: CR })); else { const o = JSON.parse(localStorage.getItem(CR_KEY)); if (o && o.items) { CR = o.items; CRV = o.v || 0; } else if (Array.isArray(o)) { CR = o; } } } catch (e) {} }
+function crEstado(t, err) { $("crSync").textContent = t; $("crSync").className = "cr-sync" + (err ? " err" : ""); }
+function crHace() { if (!crUltima) return ""; const sgs = Math.round((Date.now() - crUltima) / 1000); return sgs < 5 ? "ahora" : sgs < 60 ? "hace " + sgs + " s" : "hace " + Math.round(sgs / 60) + " min"; }
+function crAplicar(o) { if (!o || !Array.isArray(o.items)) return false; CR = o.items; CRV = o.v || 0; crUltima = Date.now(); crCache(true); crPintar(); crEstado("☁️ Guardado en línea · " + crHace()); return true; }
+function crLeerServidor(silencioso) {
+  return fetch(API_POSADA + "?" + new URLSearchParams({ api: "cronoLeer", t: Date.now() })).then(r => r.json()).then(o => {
+    if (o && Array.isArray(o.items)) { if (o.v !== CRV || !silencioso) crAplicar(o); else { crUltima = Date.now(); crEstado("☁️ Al día · " + crHace()); } }
+    else crEstado("⚠️ Publica la versión nueva del Apps Script para compartir el cronograma.", true);
+  }).catch(() => crEstado("⚠️ Sin conexión: se muestra la última copia guardada.", true));
+}
+function crOp(op, datos) {
+  crOcupado = true; crEstado("⏳ Guardando…");
+  return fetch(API_POSADA + "?" + new URLSearchParams({ api: "cronoOp", llave: LLAVE_ADMIN, op: op, datos: JSON.stringify(datos || {}) })).then(r => r.json()).then(o => {
+    crOcupado = false; if (o && Array.isArray(o.items)) { crAplicar(o); return true; }
+    const m = "⚠️ No se guardó: " + ((o && o.error) || "revisa que el Apps Script tenga la versión nueva."); crLeerServidor().then(() => crEstado(m, true)); return false;
+  }).catch(() => { crOcupado = false; const m = "⚠️ Sin conexión: no se guardó el cambio. Intenta de nuevo."; crLeerServidor().then(() => crEstado(m, true)); return false; });
+}
 const crJuego = id => CATALOGO.find(g => g.id === id);
 function crNombre(x) { if (!x) return ""; if (x.startsWith("@")) { const g = crJuego(x.slice(1)); return g ? g.e + " " + g.t : x.slice(1); } const e = CR_EXTRA.find(z => z[0] === x); return e ? e[1] + " " + x : "📌 " + x; }
 function crOpciones(sel, vacio) {
@@ -1390,31 +1410,34 @@ function crMin(h) { const m = /^(\d{1,2}):(\d{2})/.exec(h || ""); return m ? (+m
 function crOrdenar() { CR.sort((a, b) => crMin(a.hora) - crMin(b.hora)); }
 function crHora12(h) { const m = /^(\d{1,2}):(\d{2})/.exec(h || ""); if (!m) return h || ""; let H = +m[1]; const ap = H >= 12 ? "p. m." : "a. m."; H = H % 12 || 12; return H + ":" + m[2] + " " + ap; }
 function crPintar() {
+  CR.forEach(x => { if (!x.id) x.id = crId(); });
   crOrdenar(); const lista = $("crLista"), hechas = CR.filter(x => x.hecho).length, sigue = CR.findIndex(x => !x.hecho);
   $("crBarra").style.width = (CR.length ? Math.round(hechas * 100 / CR.length) : 0) + "%";
   $("crCuenta").textContent = hechas + " de " + CR.length + (CR.length === 1 ? " hecha" : " hechas") + (CR.length && hechas === CR.length ? " · ¡Todo listo! 🎉" : "");
   const s2 = sigue >= 0 ? CR[sigue] : null;
-  $("crAhora").innerHTML = s2 ? `<small>⏭ Sigue</small><b>${crHora12(s2.hora)} · ${crNombre(s2.din)}</b><span>${s2.resp ? "👤 " + s2.resp : "Sin responsable"}${s2.b ? " · 🔁 Plan B: " + crNombre(s2.b) : ""}</span>`
+  $("crAhora").innerHTML = s2 ? `<small>⏭ Sigue</small><b>${crHora12(s2.hora)} · ${crNombre(s2.din)}</b><span>${s2.resp ? "👤 " + s2.resp.replace(/</g, "&lt;") : "Sin responsable"}${s2.b ? " · 🔁 " + (s2.cambio ? "Plan original" : "Plan B") + ": " + crNombre(s2.b) : ""}</span>`
     : `<small>${CR.length ? "🎉 Programa completo" : "Sin actividades"}</small><b>${CR.length ? "¡Todo palomeado!" : "Agrega tu primera actividad"}</b><span>${CR.length ? "Buen trabajo, equipo." : "Usa ➕ Agregar actividad o 📋 Programa sugerido."}</span>`;
   if (!CR.length) { lista.innerHTML = '<li class="cr-vacio">Todavía no hay actividades. Toca <b>➕ Agregar actividad</b> o carga el <b>📋 Programa sugerido</b> y ajústalo.</li>'; return; }
   lista.innerHTML = CR.map((x, i) => {
     const esJuego = x.din && x.din.startsWith("@") && crJuego(x.din.slice(1));
     return `<li class="cr-item${x.hecho ? " hecho" : ""}${i === sigue ? " sigue" : ""}">
-      <button type="button" class="cr-check" data-ok="${i}" aria-label="${x.hecho ? "Desmarcar" : "Marcar como hecha"}: ${crNombre(x.din).replace(/"/g, "")}">${x.hecho ? "✓" : ""}</button>
+      <button type="button" class="cr-check" data-ok="${x.id}" aria-label="${x.hecho ? "Desmarcar" : "Marcar como hecha"}: ${crNombre(x.din).replace(/"/g, "")}">${x.hecho ? "✓" : ""}</button>
       <div class="cr-hora">${crHora12(x.hora)}${x.dur ? `<small>${x.dur} min</small>` : ""}</div>
       <div class="cr-info"><div class="cr-nom">${crNombre(x.din)}${i === sigue ? '<span class="cr-tag">SIGUE</span>' : ""}${x.cambio ? '<span class="cr-tag b">PLAN B</span>' : ""}</div>
         <div class="cr-det"><span>👤 ${x.resp ? x.resp.replace(/</g, "&lt;") : "Sin responsable"}</span>${x.b ? `<span>🔁 ${x.cambio ? "Plan original" : "Plan B"}: ${crNombre(x.b)}</span>` : ""}${x.notas ? `<span>📝 ${x.notas.replace(/</g, "&lt;")}</span>` : ""}</div></div>
-      <div class="cr-bts">${esJuego ? `<button type="button" class="abrir" data-abrir="${i}">▶ Abrir</button>` : ""}${x.b ? `<button type="button" data-b="${i}">🔁 ${x.cambio ? "Volver al original" : "Usar plan B"}</button>` : ""}<button type="button" data-ed="${i}">✏️ Editar</button></div></li>`;
+      <div class="cr-bts">${esJuego ? `<button type="button" class="abrir" data-abrir="${x.id}">▶ Abrir</button>` : ""}${x.b ? `<button type="button" data-b="${x.id}">🔁 ${x.cambio ? "Volver al original" : "Usar plan B"}</button>` : ""}<button type="button" data-ed="${x.id}">✏️ Editar</button></div></li>`;
   }).join("");
-  lista.querySelectorAll("[data-ok]").forEach(b => b.onclick = () => { const x = CR[+b.dataset.ok]; x.hecho = !x.hecho; crGuardar(); crPintar(); });
-  lista.querySelectorAll("[data-b]").forEach(b => b.onclick = () => { const x = CR[+b.dataset.b]; [x.din, x.b] = [x.b, x.din]; x.cambio = !x.cambio; crGuardar(); crPintar(); });
-  lista.querySelectorAll("[data-ed]").forEach(b => b.onclick = () => crAbrirModal(+b.dataset.ed));
-  lista.querySelectorAll("[data-abrir]").forEach(b => b.onclick = () => { const x = CR[+b.dataset.abrir]; $("crono").hidden = true; abrir(x.din.slice(1)); });
+  const porId = id => CR.find(x => x.id === id);
+  lista.querySelectorAll("[data-ok]").forEach(b => b.onclick = () => { const x = porId(b.dataset.ok); x.hecho = !x.hecho; crPintar(); crOp("marcar", { id: x.id, hecho: x.hecho }); });
+  lista.querySelectorAll("[data-b]").forEach(b => b.onclick = () => { const x = porId(b.dataset.b); [x.din, x.b] = [x.b, x.din]; x.cambio = !x.cambio; crPintar(); crOp("planB", { id: x.id }); });
+  lista.querySelectorAll("[data-ed]").forEach(b => b.onclick = () => crAbrirModal(b.dataset.ed));
+  lista.querySelectorAll("[data-abrir]").forEach(b => b.onclick = () => { const x = porId(b.dataset.abrir); crCerrar(); abrir(x.din.slice(1)); });
 }
-function crAbrirModal(i) {
-  crEdit = i; const x = i === null ? { hora: "", din: "", resp: "", b: "", notas: "", dur: "" } : CR[i];
-  $("crmTit").textContent = i === null ? "➕ Nueva actividad" : "✏️ Editar actividad"; $("crBorrar").hidden = i === null;
-  if (i === null && CR.length) { const u = CR[CR.length - 1], m = crMin(u.hora) + (+u.dur || 15); x.hora = String(Math.floor(m / 60) % 24).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0"); }
+function crAbrirModal(id) {
+  crEdit = id; const actual = id ? CR.find(x => x.id === id) : null;
+  const x = actual || { hora: "", din: "", resp: "", b: "", notas: "", dur: "" };
+  $("crmTit").textContent = actual ? "✏️ Editar actividad" : "➕ Nueva actividad"; $("crBorrar").hidden = !actual;
+  if (!actual && CR.length) { const u = CR[CR.length - 1], m = crMin(u.hora) + (+u.dur || 15); x.hora = String(Math.floor(m / 60) % 24).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0"); }
   $("crBTit").textContent = x.cambio ? "🔁 Plan original (lo que estaba antes del cambio)" : "🔁 Plan B (por si no se puede)";
   $("crHora").value = x.hora || "19:00"; $("crDur").value = x.dur || ""; $("crResp").value = x.resp || ""; $("crNotas").value = x.notas || "";
   crPoner($("crDin"), $("crDinTxt"), x.din || "@" + (CATALOGO[0] || {}).id); crPoner($("crResp2Din"), $("crB"), x.b || "");
@@ -1427,26 +1450,74 @@ $("crGuardar").onclick = () => {
   const din = crValor($("crDin"), $("crDinTxt"));
   if (!$("crHora").value) { $("crHora").focus(); return; }
   if (!din) { ($("crDin").value === "__otra" ? $("crDinTxt") : $("crDin")).focus(); return; }
-  const x = { hora: $("crHora").value, din: din, resp: $("crResp").value.trim(), b: crValor($("crResp2Din"), $("crB")), notas: $("crNotas").value.trim(), dur: $("crDur").value ? +$("crDur").value : "" };
-  if (crEdit === null) CR.push(Object.assign(x, { hecho: false, cambio: false })); else Object.assign(CR[crEdit], x);
-  crGuardar(); crCerrarModal(); crPintar();
+  const previo = crEdit ? CR.find(x => x.id === crEdit) : null;
+  const x = { id: previo ? previo.id : crId(), hora: $("crHora").value, din: din, resp: $("crResp").value.trim(), b: crValor($("crResp2Din"), $("crB")), notas: $("crNotas").value.trim(),
+    dur: $("crDur").value ? +$("crDur").value : "", hecho: previo ? previo.hecho : false, cambio: previo ? previo.cambio : false };
+  if (previo) Object.assign(previo, x); else CR.push(x);
+  crCerrarModal(); crPintar(); crOp("guardar", { item: x });
 };
-$("crBorrar").onclick = () => { if (crEdit === null) return; if (!confirm("¿Quitar esta actividad del cronograma?")) return; CR.splice(crEdit, 1); crGuardar(); crCerrarModal(); crPintar(); };
+$("crBorrar").onclick = () => { if (!crEdit) return; if (!confirm("¿Quitar esta actividad del cronograma?")) return; const id = crEdit; CR = CR.filter(x => x.id !== id); crCerrarModal(); crPintar(); crOp("quitar", { id: id }); };
 $("crCancelar").onclick = crCerrarModal;
 $("crModal").addEventListener("click", e => { if (e.target === $("crModal")) crCerrarModal(); });
 $("crAgregar").onclick = () => crAbrirModal(null);
 $("crSugerido").onclick = () => {
-  if (CR.length && !confirm("¿Reemplazar tu cronograma por el programa sugerido?")) return;
+  if (CR.length && !confirm("¿Reemplazar el cronograma por el programa sugerido? Se cambia también para tu compañera.")) return;
   const P = [["19:00","Llegada y bienvenida",30,"",""],["19:30","Rezo de la posada",20,"",""],["19:50","Pedir posada (letanía)",15,"",""],["20:05","@tombola",20,"","@ruleta"],["20:25","@cien",25,"","@vf"],
     ["20:50","Cena",60,"",""],["21:50","@villancico",20,"","@zoom"],["22:10","@regalo",15,"","@memoria"],["22:25","@pinata",20,"",""],["22:45","@subasta",30,"",""],["23:15","@catafixia",15,"",""],["23:30","Intercambio de regalos",30,"",""],["00:00","Brindis",10,"",""],["00:10","Foto grupal",10,"",""]];
-  CR = P.map(z => ({ hora: z[0], din: z[1], dur: z[2], resp: z[3], b: z[4], notas: "", hecho: false, cambio: false })); crGuardar(); crPintar();
+  CR = P.map(z => ({ id: crId(), hora: z[0], din: z[1], dur: z[2], resp: z[3], b: z[4], notas: "", hecho: false, cambio: false })); crPintar(); crOp("reemplazar", { items: CR });
 };
-$("crImprimir").onclick = () => window.print();
-$("crVaciar").onclick = () => { if (!CR.length || !confirm("¿Borrar todo el cronograma?")) return; CR = []; crGuardar(); crPintar(); };
+$("crRestablecer").onclick = () => {
+  if (!CR.length) return;
+  if (!confirm("¿Restablecer el cronograma?\n\n• Se quitan todas las palomitas.\n• Las actividades cambiadas a plan B regresan a su plan original.\n\nLas actividades, horarios y responsables se quedan.")) return;
+  CR.forEach(x => { if (x.cambio && x.b) [x.din, x.b] = [x.b, x.din]; x.cambio = false; x.hecho = false; }); crPintar(); crOp("restablecer");
+};
+$("crVaciar").onclick = () => {
+  if (!CR.length) return;
+  if (!confirm("¿ELIMINAR TODO el cronograma? Se borra también para tu compañera.")) return;
+  if (!confirm("¿Seguro? Esto no se puede deshacer.")) return;
+  CR = []; crPintar(); crOp("vaciar");
+};
+/* PDF: tabla que se reparte en las páginas que hagan falta */
+function crCargarJS(src) { return new Promise((ok, mal) => { const t = document.createElement("script"); t.src = src; t.onload = ok; t.onerror = mal; document.head.appendChild(t); }); }
+const crSinEmoji = t => String(t || "").replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}\u{20E3}]/gu, "").replace(/\s+/g, " ").trim();
+$("crPDF").onclick = async () => {
+  if (!CR.length) { alert("El cronograma está vacío."); return; }
+  const b = $("crPDF"); b.disabled = true; b.textContent = "⏳ Preparando PDF…";
+  try {
+    if (!window.jspdf) await crCargarJS("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
+    if (!window.jspdf.jsPDF.API.autoTable) await crCargarJS("https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js");
+    crOrdenar();
+    const doc = new window.jspdf.jsPDF({ orientation: "landscape", unit: "pt", format: "letter" }), W = doc.internal.pageSize.getWidth();
+    const hechas = CR.filter(x => x.hecho).length, fecha = new Date().toLocaleString("es-MX", { day: "numeric", month: "long", hour: "numeric", minute: "2-digit" });
+    const filas = CR.map(x => [x.hecho ? "Hecha" : "", crHora12(x.hora), x.dur ? x.dur + " min" : "", crSinEmoji(crNombre(x.din)) + (x.cambio ? "  (plan B)" : ""), x.resp || "—",
+      x.b ? (x.cambio ? "Original: " : "") + crSinEmoji(crNombre(x.b)) : "—", x.notas || ""]);
+    doc.autoTable({
+      head: [["Hecha", "Hora", "Dura", "Actividad", "Responsable", "Plan B", "Notas"]], body: filas, startY: 78, margin: { top: 78, left: 36, right: 36, bottom: 42 },
+      styles: { font: "helvetica", fontSize: 10.5, cellPadding: 6, valign: "middle", overflow: "linebreak", lineColor: [239, 227, 214], lineWidth: .6 },
+      headStyles: { fillColor: [200, 16, 46], textColor: 255, fontStyle: "bold" }, alternateRowStyles: { fillColor: [255, 250, 243] },
+      columnStyles: { 0: { cellWidth: 44, halign: "center", textColor: [31, 122, 77], fontStyle: "bold" }, 1: { cellWidth: 68, fontStyle: "bold", textColor: [200, 16, 46] }, 2: { cellWidth: 48 }, 3: { cellWidth: 190, fontStyle: "bold" }, 4: { cellWidth: 100 }, 5: { cellWidth: 150 } },
+      rowPageBreak: "avoid",
+      didDrawPage: d => {
+        doc.setFont("helvetica", "bold"); doc.setFontSize(20); doc.setTextColor(200, 16, 46); doc.text("Cronograma · Posada Gómez 2026", 36, 44);
+        doc.setFont("helvetica", "normal"); doc.setFontSize(10.5); doc.setTextColor(110, 95, 97);
+        doc.text(CR.length + " actividades · " + hechas + " hechas · actualizado el " + fecha, 36, 62);
+        doc.setFontSize(9.5); doc.text("Página " + d.pageNumber, W - 36, doc.internal.pageSize.getHeight() - 20, { align: "right" });
+      }
+    });
+    const total = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= total; i++) { doc.setPage(i); doc.setFillColor(255, 255, 255); doc.rect(W - 120, doc.internal.pageSize.getHeight() - 34, 90, 18, "F"); doc.setFontSize(9.5); doc.setTextColor(110, 95, 97); doc.text("Página " + i + " de " + total, W - 36, doc.internal.pageSize.getHeight() - 20, { align: "right" }); }
+    doc.save("Cronograma_Posada_Gomez.pdf");
+  } catch (e) { alert("No se pudo crear el PDF. Revisa tu conexión a internet e intenta de nuevo."); }
+  b.disabled = false; b.textContent = "📄 Descargar PDF";
+};
 $("crPersonas").innerHTML = CR_PERSONAS.map(n => `<option value="${n}">`).join("");
 crOpciones($("crDin"), false); crOpciones($("crResp2Din"), true);
-$("btnCrono").onclick = () => { crLeer(); crPintar(); $("crono").hidden = false; $("crono").scrollTop = 0; };
-$("crVolver").onclick = () => { $("crono").hidden = true; };
+function crCerrar() { $("crono").hidden = true; clearInterval(crPoll); }
+$("btnCrono").onclick = () => {
+  crCache(false); crPintar(); $("crono").hidden = false; $("crono").scrollTop = 0; crEstado("⏳ Cargando…"); crLeerServidor();
+  clearInterval(crPoll); crPoll = setInterval(() => { if ($("crModal").hidden && !crOcupado && !document.hidden) crLeerServidor(true); else if (crUltima) crEstado("☁️ Guardado en línea · " + crHace()); }, 8000);
+};
+$("crVolver").onclick = crCerrar;
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("crModal").hidden) crCerrarModal(); });
 
 /* ---------- Puntos manuales ---------- */
