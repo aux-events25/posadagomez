@@ -495,6 +495,36 @@ body.en-admin #portal,body.en-admin #esferas{display:none}
 .adm-panel .panel-app{max-width:none}
 .adm-panel .juegos{margin-top:4px}
 @media (prefers-reduced-motion:reduce){.adm-panel,.adm-tile{animation:none;transition:none}}
+.gq-form{display:grid;gap:8px}
+.gq-cap{display:block;margin-top:6px;font:900 14px Nunito,sans-serif;color:var(--tinta)}.gq-cap small{font-weight:700;color:#6e5f61}
+.gq-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media (max-width:640px){.gq-2{grid-template-columns:1fr}}
+.gq-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.gq-chips button{border:2px solid #efe3d6;background:#fff;border-radius:999px;padding:5px 12px;font:800 13px Nunito,sans-serif;color:var(--tinta);cursor:pointer}
+.gq-chips button:hover,.gq-chips button:focus-visible{border-color:#c28a1e;outline:none}
+.gq-nota{margin:6px 0 4px}
+.gq-cab-lista{display:flex;align-items:center;justify-content:space-between;margin:22px 0 8px}.gq-cab-lista h3{margin:0;font:900 18px Nunito,sans-serif;color:var(--tinta)}
+.gq-mini{border:2px solid #efe3d6;background:#fff;border-radius:999px;padding:5px 12px;font:800 13px Nunito,sans-serif;cursor:pointer}
+.gq-lista{display:grid;gap:10px}
+.gq-item{display:grid;grid-template-columns:72px 1fr auto;gap:12px;align-items:center;border:2px solid #efe3d6;background:#fff;border-radius:16px;padding:10px}
+.gq-item img{width:72px;height:72px;border-radius:8px}
+.gq-item b{display:block;font:900 16px Nunito,sans-serif;color:var(--tinta)}.gq-item small{display:block;font:700 13px Nunito,sans-serif;color:#6e5f61}
+.gq-acc{display:flex;flex-direction:column;gap:6px}
+.gq-acc button{border:0;border-radius:10px;padding:8px 12px;font:900 13px Nunito,sans-serif;cursor:pointer;color:#fff;background:var(--hoja2)}
+.gq-acc button.off{background:#7a0a1c}
+.qr-est.programado{background:#3b5ba5}
+#gqPantalla{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse 120% 80% at 50% 0%,#1a6b47,#0f4d32 45%,#0c3b29);color:#fff;text-align:center;padding:2vh 2vw}
+#gqPantalla[hidden]{display:none}
+.gqp-caja{display:flex;flex-direction:column;align-items:center;max-height:100%}
+.gqp-pre{margin:0;font:900 clamp(18px,2.6vh,30px) Nunito,sans-serif;color:#ffe08a}
+#gqpTitulo{margin:.6vh 0 1.6vh;font:400 clamp(30px,6vh,72px)/1.05 "Luckiest Guy",Nunito,sans-serif;letter-spacing:.02em;text-shadow:0 4px 0 #9a0b22}
+.gqp-qr{background:#fff;border-radius:22px;padding:1.6vh;box-shadow:0 0 0 6px #f2c14e,0 20px 50px rgba(0,0,0,.45)}
+.gqp-qr img{display:block;width:min(52vh,70vw);height:min(52vh,70vw)}
+.gqp-pts{margin:2vh 0 0;font:400 clamp(28px,5vh,60px) "Luckiest Guy",Nunito,sans-serif;color:#ffe08a;text-shadow:0 3px 0 #6b4510}
+.gqp-info{margin:.6vh 0 0;font:900 clamp(18px,2.8vh,32px) Nunito,sans-serif}
+.gqp-reloj{margin:.4vh 0 0;font:800 clamp(15px,2.2vh,26px) Nunito,sans-serif;color:#d8f3e4}
+.gqp-botones{position:fixed;right:16px;bottom:16px;display:flex;gap:8px}
+.gqp-botones button{border:2px solid rgba(255,224,138,.7);background:rgba(0,0,0,.35);color:#ffe7a3;border-radius:12px;padding:8px 14px;font:800 15px Nunito,sans-serif;cursor:pointer;opacity:.6}
+.gqp-botones button:hover,.gqp-botones button:focus-visible{opacity:1}
 </style>
 </head>
 <body>
@@ -680,7 +710,8 @@ body.en-admin #portal,body.en-admin #esferas{display:none}
       <h2 class="adm-grupo">Configuración</h2>
       <div class="adm-grid"><button type="button" class="adm-tile" data-panel="app" style="--c:#2f9e62"><span class="adm-ico" aria-hidden="true">📱</span>
           <span class="adm-txt"><b>App de invitados</b><small>Mostrar la app y desbloquear escáner, mural, bonus y premios</small><span class="adm-badge" id="badge-app" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button><button type="button" class="adm-tile" data-panel="cierre" style="--c:#6e5f61"><span class="adm-ico" aria-hidden="true">🛑</span>
-          <span class="adm-txt"><b>Cierre de códigos</b><small>"¡La posada terminó!" ahora o a una hora programada</small><span class="adm-badge" id="badge-cierre" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button><button type="button" class="adm-tile" data-panel="qrs" style="--c:#3b5ba5"><span class="adm-ico" aria-hidden="true">🔍</span>
+          <span class="adm-txt"><b>Cierre de códigos</b><small>"¡La posada terminó!" ahora o a una hora programada</small><span class="adm-badge" id="badge-cierre" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button><button type="button" class="adm-tile" data-panel="qrnuevo" style="--c:#c28a1e"><span class="adm-ico" aria-hidden="true">🎟️</span>
+          <span class="adm-txt"><b>Generar QR</b><small>Crea un QR al momento para premiar a quien gane una dinámica</small><span class="adm-badge" id="badge-qrnuevo" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button><button type="button" class="adm-tile" data-panel="qrs" style="--c:#3b5ba5"><span class="adm-ico" aria-hidden="true">🔍</span>
           <span class="adm-txt"><b>Códigos QR</b><small>Revisa tus códigos y muéstralos en grande</small><span class="adm-badge" id="badge-qrs" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button><button type="button" class="adm-tile peligro" data-panel="borrar" style="--c:#7a0a1c"><span class="adm-ico" aria-hidden="true">🧹</span>
           <span class="adm-txt"><b>Borrar registros</b><small>Empieza de cero: borra invitados, puntos y retos (los QR se quedan)</small><span class="adm-badge" id="badge-borrar" hidden></span></span><span class="adm-flecha" aria-hidden="true">›</span></button></div>
     </section>
@@ -766,6 +797,32 @@ body.en-admin #portal,body.en-admin #esferas{display:none}
       <div class="adm-panel-cab"><span class="adm-ico" style="--c:#6e5f61" aria-hidden="true">🛑</span><div><h2 id="pt-cierre">Cierre de códigos</h2><p>"¡La posada terminó!" ahora o a una hora programada</p></div></div>
       <div class="panel-app" id="panelCierre"><p class="panel-estado">Revisando…</p></div>
     </section>
+    <section class="adm-panel" id="panel-qrnuevo" hidden aria-labelledby="pt-qrnuevo">
+      <div class="adm-panel-cab"><span class="adm-ico" style="--c:#c28a1e" aria-hidden="true">🎟️</span><div><h2 id="pt-qrnuevo">Generar QR</h2><p>Un QR al momento para premiar a quien gane una dinámica</p></div></div>
+      <div class="panel-app panel-pad">
+        <div class="gq-form">
+          <label class="gq-cap" for="gqTitulo">Título <small>(para identificar el QR)</small></label>
+          <input class="adm-campo" id="gqTitulo" maxlength="60" placeholder="Ej. Ganadores de la piñata">
+          <div class="gq-2">
+            <div><label class="gq-cap" for="gqPuntos">⭐ Puntos que da</label><input class="adm-campo" id="gqPuntos" type="number" inputmode="numeric" min="1" value="100">
+              <div class="gq-chips" data-para="gqPuntos"><button type="button" data-v="50">50</button><button type="button" data-v="100">100</button><button type="button" data-v="200">200</button><button type="button" data-v="500">500</button></div></div>
+            <div><label class="gq-cap" for="gqMax">👥 ¿Cuántas personas lo pueden cambiar?</label><input class="adm-campo" id="gqMax" type="number" inputmode="numeric" min="0" placeholder="Sin límite">
+              <div class="gq-chips" data-para="gqMax"><button type="button" data-v="1">1</button><button type="button" data-v="3">3</button><button type="button" data-v="5">5</button><button type="button" data-v="10">10</button><button type="button" data-v="">Sin límite</button></div></div>
+          </div>
+          <div class="gq-2">
+            <div><label class="gq-cap" for="gqIni">🟢 Empieza</label><input class="adm-campo" id="gqIni" type="datetime-local">
+              <div class="gq-chips"><button type="button" data-ini="0">Ahora</button><button type="button" data-ini="5">En 5 min</button><button type="button" data-ini="15">En 15 min</button></div></div>
+            <div><label class="gq-cap" for="gqFin">🔴 Termina</label><input class="adm-campo" id="gqFin" type="datetime-local">
+              <div class="gq-chips"><button type="button" data-fin="10">+10 min</button><button type="button" data-fin="30">+30 min</button><button type="button" data-fin="60">+1 hora</button><button type="button" data-fin="">Sin fin</button></div></div>
+          </div>
+          <p class="panel-txt gq-nota">Cada invitado lo puede cambiar <b>una sola vez</b>. Si necesitas otro premio, genera otro QR.</p>
+          <button type="button" class="boton-admin" id="gqCrear">🎟️ Generar QR</button>
+          <p class="aj-msg" id="gqMsg" role="status"></p>
+        </div>
+        <div class="gq-cab-lista"><h3>QR generados</h3><button type="button" class="gq-mini" id="gqRefrescar">↻ Actualizar</button></div>
+        <div class="gq-lista" id="gqLista"><p class="panel-txt">Todavía no has generado QR.</p></div>
+      </div>
+    </section>
     <section class="adm-panel" id="panel-qrs" hidden aria-labelledby="pt-qrs">
       <div class="adm-panel-cab"><span class="adm-ico" style="--c:#3b5ba5" aria-hidden="true">🔍</span><div><h2 id="pt-qrs">Códigos QR</h2><p>Revisa tus códigos y muéstralos en grande</p></div></div>
       <div class="panel-app panel-pad">
@@ -787,6 +844,17 @@ body.en-admin #portal,body.en-admin #esferas{display:none}
       </div>
     </section>
   </main>
+</div>
+<div id="gqPantalla" hidden role="dialog" aria-label="QR en pantalla completa">
+  <div class="gqp-caja">
+    <p class="gqp-pre">🎟️ ¡Escanea con tu app!</p>
+    <h2 id="gqpTitulo"></h2>
+    <div class="gqp-qr"><img id="gqpImg" alt=""></div>
+    <p class="gqp-pts" id="gqpPts"></p>
+    <p class="gqp-info" id="gqpInfo"></p>
+    <p class="gqp-reloj" id="gqpReloj"></p>
+  </div>
+  <div class="gqp-botones"><button type="button" id="gqpFull">⛶ Pantalla completa</button><button type="button" id="gqpCerrar">✕ Cerrar</button></div>
 </div>
 <div id="adminCerrado" hidden></div>
 <div class="reproductor" id="reproductor" hidden></div>
@@ -1109,7 +1177,7 @@ function programar(iso) {
 
 /* ---------- Códigos QR ---------- */
 const QR_IMG = t => "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=10&data=" + encodeURIComponent(t);
-const EST_TXT = { activo: "ACTIVO", vencido: "VENCIDO", agotado: "AGOTADO", cerrado: "CERRADO" };
+const EST_TXT = { activo: "ACTIVO", vencido: "VENCIDO", agotado: "AGOTADO", cerrado: "CERRADO", programado: "PROGRAMADO" };
 $("btnQRs").onclick = () => {
   $("btnQRs").disabled = true; $("btnQRs").textContent = "Cargando…";
   fetch(API_POSADA + "?" + new URLSearchParams({ api: "qrs", llave: LLAVE_ADMIN })).then(r => r.json()).then(o => {
@@ -1131,6 +1199,86 @@ function verQR(c) {
 $("qrCerrar").onclick = () => { $("qrModal").hidden = true; };
 $("qrImprimir").onclick = () => window.print();
 $("qrModal").addEventListener("click", e => { if (e.target === $("qrModal")) $("qrModal").hidden = true; });
+
+
+/* ---------- 🎟️ Generar QR al momento ---------- */
+const pad2 = n => String(n).padStart(2, "0");
+const aLocal = d => d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()) + "T" + pad2(d.getHours()) + ":" + pad2(d.getMinutes());
+const horaCorta = iso => new Date(iso).toLocaleTimeString("es-MX", { hour: "numeric", minute: "2-digit" });
+let GQ = [], gqSel = null, gqTimer = 0, gqReloj = 0;
+function gqDefaults() { $("gqIni").value = aLocal(new Date()); $("gqFin").value = aLocal(new Date(Date.now() + 30 * 60000)); }
+gqDefaults();
+document.querySelectorAll(".gq-chips[data-para] button").forEach(b => b.onclick = () => { $(b.parentNode.getAttribute("data-para")).value = b.getAttribute("data-v"); });
+document.querySelectorAll(".gq-chips button[data-ini]").forEach(b => b.onclick = () => {
+  const ini = new Date(Date.now() + (+b.getAttribute("data-ini")) * 60000); $("gqIni").value = aLocal(ini);
+  const fin = $("gqFin").value ? new Date($("gqFin").value) : null; if (fin && fin <= ini) $("gqFin").value = aLocal(new Date(ini.getTime() + 30 * 60000)); });
+document.querySelectorAll(".gq-chips button[data-fin]").forEach(b => b.onclick = () => {
+  const m = b.getAttribute("data-fin"); if (!m) { $("gqFin").value = ""; return; }
+  const base = $("gqIni").value ? new Date(Math.max(Date.now(), new Date($("gqIni").value).getTime())) : new Date(); $("gqFin").value = aLocal(new Date(base.getTime() + (+m) * 60000)); });
+function gqMsg(t, cls) { $("gqMsg").className = "aj-msg " + (cls || ""); $("gqMsg").textContent = t; }
+$("gqCrear").onclick = () => {
+  const titulo = $("gqTitulo").value.trim(), puntos = Math.round(+$("gqPuntos").value), max = $("gqMax").value === "" ? 0 : Math.round(+$("gqMax").value);
+  const ini = $("gqIni").value ? new Date($("gqIni").value) : null, fin = $("gqFin").value ? new Date($("gqFin").value) : null;
+  if (!titulo) { gqMsg("Escribe un título para identificar el QR.", "err"); $("gqTitulo").focus(); return; }
+  if (!puntos || puntos < 1) { gqMsg("Escribe cuántos puntos da.", "err"); $("gqPuntos").focus(); return; }
+  if (fin && fin <= new Date()) { gqMsg("La hora de fin ya pasó.", "err"); return; }
+  if (fin && ini && fin <= ini) { gqMsg("La hora de fin debe ser después del inicio.", "err"); return; }
+  $("gqCrear").disabled = true; gqMsg("Generando…");
+  fetch(API_POSADA + "?" + new URLSearchParams({ api: "qrCrear", llave: LLAVE_ADMIN, titulo: titulo, puntos: puntos, max: max, inicio: ini ? ini.toISOString() : "", fin: fin ? fin.toISOString() : "" }))
+    .then(r => r.json()).then(o => {
+      $("gqCrear").disabled = false;
+      if (!o.ok) { gqMsg(o.error || "No se pudo. Revisa que el Apps Script esté publicado con la versión nueva.", "err"); return; }
+      gqMsg("✅ Listo: " + o.qr.codigo + " · " + o.qr.titulo, "ok"); $("gqTitulo").value = ""; gqDefaults();
+      GQ.unshift(o.qr); pintarGQ(); proyectarGQ(o.qr); cargarGQ();
+    }).catch(() => { $("gqCrear").disabled = false; gqMsg("Sin conexión. Intenta de nuevo.", "err"); });
+};
+function cargarGQ() {
+  return fetch(API_POSADA + "?" + new URLSearchParams({ api: "qrs", llave: LLAVE_ADMIN })).then(r => r.json()).then(o => {
+    if (!o || !o.codigos) return; GQ = o.codigos.filter(c => c.titulo).reverse(); pintarGQ();
+    if (gqSel) { const c = GQ.find(x => x.codigo === gqSel.codigo); if (c) { gqSel = c; pintarPantalla(); } }
+  }).catch(() => {});
+}
+function horario(c) {
+  const a = c.inicio ? horaCorta(c.inicio) : "ya", b = c.vence ? horaCorta(c.vence) : "sin fin";
+  return "🕒 " + (c.inicio ? "de " + a : "desde que se creó") + " · " + (c.vence ? "hasta " + b : "sin hora de fin");
+}
+function pintarGQ() {
+  $("badge-qrnuevo").hidden = !GQ.some(c => c.estado === "activo"); $("badge-qrnuevo").textContent = GQ.filter(c => c.estado === "activo").length + " ACTIVOS";
+  if (!GQ.length) { $("gqLista").innerHTML = '<p class="panel-txt">Todavía no has generado QR.</p>'; return; }
+  $("gqLista").innerHTML = GQ.map((c, i) => `<div class="gq-item"><img src="${QR_IMG(c.link)}" alt="" loading="lazy">
+    <div><b>${c.titulo.replace(/</g, "&lt;")}</b><small>${c.codigo} · ⭐ ${c.puntos} pts · 👥 ${c.usados}${c.max ? " de " + c.max : ""} lo han cambiado</small><small>${horario(c)}</small>
+    <span class="qr-est ${c.estado}">${EST_TXT[c.estado] || c.estado}</span></div>
+    <div class="gq-acc"><button type="button" data-ver="${i}">📺 Mostrar</button>${c.estado === "activo" || c.estado === "programado" ? `<button type="button" class="off" data-off="${i}">⛔ Desactivar</button>` : ""}</div></div>`).join("");
+  $("gqLista").querySelectorAll("[data-ver]").forEach(b => b.onclick = () => proyectarGQ(GQ[+b.getAttribute("data-ver")]));
+  $("gqLista").querySelectorAll("[data-off]").forEach(b => b.onclick = () => {
+    const c = GQ[+b.getAttribute("data-off")]; if (!confirm("¿Desactivar el QR \u201c" + c.titulo + "\u201d? Ya nadie podrá cambiarlo.")) return;
+    fetch(API_POSADA + "?" + new URLSearchParams({ api: "qrDesactivar", llave: LLAVE_ADMIN, codigo: c.codigo })).then(r => r.json()).then(() => cargarGQ()).catch(() => alert("Sin conexión."));
+  });
+}
+$("gqRefrescar").onclick = cargarGQ;
+document.querySelector('.adm-tile[data-panel="qrnuevo"]').addEventListener("click", () => setTimeout(cargarGQ, 50));
+function proyectarGQ(c) {
+  gqSel = c; $("gqpImg").src = QR_IMG(c.link).replace("400x400", "700x700"); $("gqpImg").alt = "Código QR " + c.titulo;
+  pintarPantalla(); $("gqPantalla").hidden = false;
+  clearInterval(gqTimer); gqTimer = setInterval(cargarGQ, 5000); clearInterval(gqReloj); gqReloj = setInterval(pintarPantalla, 1000);
+}
+function pintarPantalla() {
+  const c = gqSel; if (!c) return; const ahora = Date.now();
+  $("gqpTitulo").textContent = c.titulo; $("gqpPts").textContent = "⭐ " + c.puntos.toLocaleString("es-MX") + " puntos";
+  const quedan = c.max ? Math.max(0, c.max - c.usados) : null;
+  let info = c.max ? (quedan ? "Quedan " + quedan + " de " + c.max + (quedan === 1 ? " lugar" : " lugares") : "¡Se acabaron los lugares!") : "👥 " + c.usados + (c.usados === 1 ? " persona lo ha cambiado" : " personas lo han cambiado");
+  let reloj = "";
+  const ini = c.inicio ? new Date(c.inicio).getTime() : 0, fin = c.vence ? new Date(c.vence).getTime() : 0;
+  const mmss = ms => { const t = Math.max(0, Math.round(ms / 1000)); return Math.floor(t / 60) + ":" + pad2(t % 60); };
+  if (c.estado === "vencido" || (fin && ahora >= fin)) { info = "⛔ Este QR ya cerró"; }
+  else if (ini && ahora < ini) reloj = "🟢 Se activa en " + mmss(ini - ahora);
+  else if (fin) reloj = "⏳ Cierra en " + mmss(fin - ahora);
+  $("gqpInfo").textContent = info; $("gqpReloj").textContent = reloj;
+}
+function cerrarPantallaGQ() { $("gqPantalla").hidden = true; gqSel = null; clearInterval(gqTimer); clearInterval(gqReloj); try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {} }
+$("gqpCerrar").onclick = cerrarPantallaGQ;
+$("gqpFull").onclick = () => { try { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); } catch (e) {} };
+document.addEventListener("keydown", e => { if (!$("gqPantalla").hidden && e.key === "Escape") cerrarPantallaGQ(); });
 
 /* ---------- Puntos manuales ---------- */
 let JUG = [], jugSel = null;
