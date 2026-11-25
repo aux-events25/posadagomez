@@ -525,6 +525,53 @@ body.en-admin #portal,body.en-admin #esferas{display:none}
 .gqp-botones{position:fixed;right:16px;bottom:16px;display:flex;gap:8px}
 .gqp-botones button{border:2px solid rgba(255,224,138,.7);background:rgba(0,0,0,.35);color:#ffe7a3;border-radius:12px;padding:8px 14px;font:800 15px Nunito,sans-serif;cursor:pointer;opacity:.6}
 .gqp-botones button:hover,.gqp-botones button:focus-visible{opacity:1}
+.top-der{display:inline-flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.btn-crono-top{border-color:rgba(255,255,255,.55)}
+#crono{position:fixed;inset:0;z-index:800;overflow:auto;background:radial-gradient(ellipse 120% 70% at 50% 0%,#1a6b47,#0f4d32 45%,#0c3b29);color:#fff;font-family:Nunito,sans-serif}
+#crono[hidden]{display:none}
+.cr-top{position:sticky;top:0;z-index:2;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 18px;background:rgba(12,59,41,.92);backdrop-filter:blur(4px);border-bottom:1px solid rgba(255,255,255,.1)}
+.cr-top h1{margin:0;font:900 clamp(20px,2.4vw,28px) Nunito,sans-serif;color:#fff3c4}
+.cr-volver{justify-self:start;border:0;background:none;color:#ffe08a;font:900 16px Nunito,sans-serif;cursor:pointer}
+.cr-cuerpo{max-width:980px;margin:0 auto;padding:18px 16px 60px}
+.cr-resumen{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;align-items:stretch}@media (max-width:720px){.cr-resumen{grid-template-columns:1fr}}
+.cr-ahora{background:#fffaf3;color:#2a1d1f;border-radius:18px;padding:14px 18px;box-shadow:0 8px 22px rgba(0,0,0,.25);border-top:8px solid #c8102e}
+.cr-ahora small{display:block;font:900 12px Nunito,sans-serif;letter-spacing:.08em;color:#c8102e;text-transform:uppercase}
+.cr-ahora b{display:block;font:900 22px Nunito,sans-serif;margin-top:2px}.cr-ahora span{display:block;font:700 14px Nunito,sans-serif;color:#6e5f61}
+.cr-prog{background:rgba(255,255,255,.08);border-radius:18px;padding:14px 18px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.cr-barra{height:14px;border-radius:999px;background:rgba(255,255,255,.15);overflow:hidden}.cr-barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f2c14e,#2f9e62);transition:width .4s}
+#crCuenta{font:900 16px Nunito,sans-serif;color:#fff3c4}
+.cr-acciones{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.cr-btn{border:2px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;border-radius:12px;padding:9px 14px;font:900 14px Nunito,sans-serif;cursor:pointer}
+.cr-btn:hover,.cr-btn:focus-visible{background:rgba(255,255,255,.18);outline:none}
+.cr-btn.prin{background:#c8102e;border-color:#c8102e}.cr-btn.prin:hover{background:#a30d25}
+.cr-btn.peligro{border-color:rgba(255,140,140,.6)}
+.cr-lista{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.cr-item{display:grid;grid-template-columns:54px 118px 1fr auto;gap:12px;align-items:center;background:#fffaf3;color:#2a1d1f;border-radius:16px;padding:12px 14px;box-shadow:0 6px 16px rgba(0,0,0,.22);border-left:8px solid #f2c14e}
+@media (max-width:720px){.cr-item{grid-template-columns:46px 1fr;}.cr-item .cr-hora{grid-column:2}.cr-item .cr-info{grid-column:1/-1}.cr-item .cr-bts{grid-column:1/-1;justify-content:flex-start}}
+.cr-item.sigue{border-left-color:#c8102e;box-shadow:0 0 0 3px #f2c14e,0 6px 16px rgba(0,0,0,.25)}
+.cr-item.hecho{opacity:.62;border-left-color:#2f9e62}.cr-item.hecho .cr-nom{text-decoration:line-through}
+.cr-check{width:44px;height:44px;border-radius:50%;border:3px solid #c9b8a8;background:#fff;cursor:pointer;font-size:24px;display:grid;place-items:center;color:#fff}
+.cr-check:hover{border-color:#2f9e62}.cr-item.hecho .cr-check{background:#2f9e62;border-color:#2f9e62}
+.cr-hora{font:900 20px Nunito,sans-serif;color:#c8102e;white-space:nowrap}.cr-hora small{display:block;font:800 12px Nunito,sans-serif;color:#6e5f61}
+.cr-nom{font:900 19px Nunito,sans-serif;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cr-tag{font:900 11px Nunito,sans-serif;letter-spacing:.05em;border-radius:999px;padding:3px 9px;color:#fff;background:#c8102e}.cr-tag.b{background:#3b5ba5}
+.cr-det{margin-top:3px;font:700 14px Nunito,sans-serif;color:#6e5f61;display:flex;flex-wrap:wrap;gap:4px 14px}
+.cr-bts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.cr-bts button{border:2px solid #efe3d6;background:#fff;border-radius:10px;padding:7px 10px;font:900 13px Nunito,sans-serif;cursor:pointer;color:#2a1d1f}
+.cr-bts button:hover,.cr-bts button:focus-visible{border-color:#c28a1e;outline:none}
+.cr-bts .abrir{background:#1f7a4d;border-color:#1f7a4d;color:#fff}
+.cr-vacio{background:rgba(255,255,255,.08);border-radius:16px;padding:22px;text-align:center;font:800 16px Nunito,sans-serif;color:#d8f3e4}
+.cr-pie{margin-top:16px;font:700 13px Nunito,sans-serif;color:#cfe8da;text-align:center}
+.cr-modal{position:fixed;inset:0;z-index:5;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px}
+.cr-modal[hidden]{display:none}
+.cr-caja{width:min(560px,100%);max-height:94vh;overflow:auto;background:#fffaf3;color:#2a1d1f;border-radius:20px;padding:18px 20px;display:grid;gap:10px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.cr-caja h2{margin:0;font:900 22px Nunito,sans-serif;color:#c8102e}
+.cr-caja label{display:grid;gap:4px;font:900 14px Nunito,sans-serif}.cr-caja label small{font-weight:700;color:#6e5f61}
+.cr-caja input,.cr-caja select{font:700 16px Nunito,sans-serif;padding:10px 12px;border:2px solid #efe3d6;border-radius:12px;background:#fff;color:#2a1d1f}
+.cr-caja input:focus,.cr-caja select:focus{outline:none;border-color:#c28a1e}
+.cr-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cr-mbot{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}.cr-mbot .cr-btn{color:#2a1d1f;border-color:#efe3d6;background:#fff}.cr-mbot .cr-btn.prin{color:#fff;background:#c8102e;border-color:#c8102e}.cr-mbot .cr-btn.peligro{color:#7a0a1c}
+@media print{body>*:not(#crono){display:none !important}#crono{position:static;background:#fff;color:#000}.cr-top,.cr-acciones,.cr-bts,.cr-pie,.cr-modal,.cr-volver{display:none !important}.cr-item{box-shadow:none;border:1px solid #ccc}.cr-resumen{display:none}}
 </style>
 </head>
 <body>
@@ -566,7 +613,8 @@ body.en-admin #portal,body.en-admin #esferas{display:none}
 <main class="portal" id="portal">
   <nav class="barra-top" aria-label="Navegación">
     <span class="marca">🎄 Posada Gómez</span>
-    <button type="button" class="btn-admin-top" id="btnAdmin" aria-label="Administración y herramientas">⚙️ <span>Administración</span></button>
+    <span class="top-der"><button type="button" class="btn-admin-top btn-crono-top" id="btnCrono" aria-label="Cronograma de la posada">🗓️ <span>Cronograma</span></button>
+    <button type="button" class="btn-admin-top" id="btnAdmin" aria-label="Administración y herramientas">⚙️ <span>Administración</span></button></span>
   </nav>
   <header class="portada">
     <svg class="escena" id="escena-normal" viewBox="-92 0 452 238" role="img" aria-label="Santa Claus saludando junto a un pino navideño y un reno">
@@ -845,6 +893,42 @@ body.en-admin #portal,body.en-admin #esferas{display:none}
     </section>
   </main>
 </div>
+
+<!-- ====== 🗓️ CRONOGRAMA DE LA POSADA ====== -->
+<section id="crono" hidden aria-labelledby="crTit">
+  <div class="cr-top"><button type="button" class="cr-volver" id="crVolver">‹ Dinámicas</button><h1 id="crTit">🗓️ Cronograma de la posada</h1><span></span></div>
+  <div class="cr-cuerpo">
+    <div class="cr-resumen">
+      <div class="cr-ahora" id="crAhora"></div>
+      <div class="cr-prog"><div class="cr-barra"><i id="crBarra"></i></div><span id="crCuenta">0 de 0 hechas</span></div>
+    </div>
+    <div class="cr-acciones">
+      <button type="button" class="cr-btn prin" id="crAgregar">➕ Agregar actividad</button>
+      <button type="button" class="cr-btn" id="crSugerido">📋 Programa sugerido</button>
+      <button type="button" class="cr-btn" id="crImprimir">🖨️ Imprimir</button>
+      <button type="button" class="cr-btn peligro" id="crVaciar">🗑️ Vaciar</button>
+    </div>
+    <ol class="cr-lista" id="crLista"></ol>
+    <p class="cr-pie">Se guarda solo en esta computadora. Toca el círculo para palomear lo que ya se hizo.</p>
+  </div>
+  <div class="cr-modal" id="crModal" hidden role="dialog" aria-modal="true" aria-labelledby="crmTit">
+    <form class="cr-caja" id="crForm" onsubmit="return false">
+      <h2 id="crmTit">Actividad</h2>
+      <div class="cr-2">
+        <label>🕒 Hora<input type="time" id="crHora" required></label>
+        <label>⏱ Duración <small>(min)</small><input type="number" id="crDur" min="0" step="5" placeholder="15"></label>
+      </div>
+      <label>🎮 Dinámica o actividad<select id="crDin"></select></label>
+      <input id="crDinTxt" class="cr-otro" placeholder="Escribe la actividad (ej. Cena, Intercambio de regalos)" hidden>
+      <label>👤 Responsable<input id="crResp" list="crPersonas" placeholder="¿Quién la lleva? (ej. Diego)"></label>
+      <label><span id="crBTit">🔁 Plan B (por si no se puede)</span><select id="crResp2Din"></select></label>
+      <input id="crB" class="cr-otro" placeholder="Escribe el plan B" hidden>
+      <label>📝 Notas <small>(opcional)</small><input id="crNotas" maxlength="140" placeholder="Ej. Llevar bocina, premios en la bolsa roja"></label>
+      <datalist id="crPersonas"></datalist>
+      <div class="cr-mbot"><button type="button" class="cr-btn" id="crCancelar">Cancelar</button><button type="button" class="cr-btn peligro" id="crBorrar">🗑️ Quitar</button><button type="submit" class="cr-btn prin" id="crGuardar">💾 Guardar</button></div>
+    </form>
+  </div>
+</section>
 <div id="gqPantalla" hidden role="dialog" aria-label="QR en pantalla completa">
   <div class="gqp-caja">
     <p class="gqp-pre">🎟️ ¡Escanea con tu app!</p>
@@ -1279,6 +1363,91 @@ function cerrarPantallaGQ() { $("gqPantalla").hidden = true; gqSel = null; clear
 $("gqpCerrar").onclick = cerrarPantallaGQ;
 $("gqpFull").onclick = () => { try { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); } catch (e) {} };
 document.addEventListener("keydown", e => { if (!$("gqPantalla").hidden && e.key === "Escape") cerrarPantallaGQ(); });
+
+
+/* ---------- 🗓️ Cronograma de la posada (se guarda en esta computadora) ---------- */
+const CR_KEY = "cronograma-posada";
+const CR_PERSONAS = ["Tía Chaly","Tío Javi","Ximi","Edgar","Pablo","Barbie","Pollo","Pau","Reginita","Constanza","Vale","Diego","Fer","Javi","Pato","Dani","Lupita","Rodrigo","Maryjo"];
+const CR_EXTRA = [["Llegada y bienvenida","👋"],["Rezo de la posada","🕯️"],["Pedir posada (letanía)","🎶"],["Cena","🍽️"],["Brindis","🥂"],["Intercambio de regalos","🎁"],["Foto grupal","📷"],["Postre y café","☕"],["Cierre y despedida","👋"]];
+let CR = [], crEdit = null;
+function crLeer() { try { CR = JSON.parse(localStorage.getItem(CR_KEY)) || []; } catch (e) { CR = []; } }
+function crGuardar() { try { localStorage.setItem(CR_KEY, JSON.stringify(CR)); } catch (e) {} }
+const crJuego = id => CATALOGO.find(g => g.id === id);
+function crNombre(x) { if (!x) return ""; if (x.startsWith("@")) { const g = crJuego(x.slice(1)); return g ? g.e + " " + g.t : x.slice(1); } const e = CR_EXTRA.find(z => z[0] === x); return e ? e[1] + " " + x : "📌 " + x; }
+function crOpciones(sel, vacio) {
+  const juegos = CATALOGO.filter(g => g.tipo !== "a").map(g => `<option value="@${g.id}">${g.e} ${g.t}</option>`).join("");
+  const extra = CR_EXTRA.map(z => `<option value="${z[0]}">${z[1]} ${z[0]}</option>`).join("");
+  sel.innerHTML = (vacio ? `<option value="">— Sin plan B —</option>` : "") + `<optgroup label="Dinámicas">${juegos}</optgroup><optgroup label="Momentos de la posada">${extra}</optgroup><option value="__otra">✏️ Otra (escribir)…</option>`;
+}
+function crPoner(sel, txt, valor) {
+  const hay = [...sel.options].some(o => o.value === valor);
+  if (!valor) { sel.value = ""; txt.hidden = true; txt.value = ""; }
+  else if (hay) { sel.value = valor; txt.hidden = true; txt.value = ""; }
+  else { sel.value = "__otra"; txt.hidden = false; txt.value = valor; }
+}
+function crValor(sel, txt) { return sel.value === "__otra" ? txt.value.trim() : sel.value; }
+function crMin(h) { const m = /^(\d{1,2}):(\d{2})/.exec(h || ""); return m ? (+m[1] < 12 ? +m[1] + 24 : +m[1]) * 60 + +m[2] : 9999; }   // de la tarde a la madrugada
+function crOrdenar() { CR.sort((a, b) => crMin(a.hora) - crMin(b.hora)); }
+function crHora12(h) { const m = /^(\d{1,2}):(\d{2})/.exec(h || ""); if (!m) return h || ""; let H = +m[1]; const ap = H >= 12 ? "p. m." : "a. m."; H = H % 12 || 12; return H + ":" + m[2] + " " + ap; }
+function crPintar() {
+  crOrdenar(); const lista = $("crLista"), hechas = CR.filter(x => x.hecho).length, sigue = CR.findIndex(x => !x.hecho);
+  $("crBarra").style.width = (CR.length ? Math.round(hechas * 100 / CR.length) : 0) + "%";
+  $("crCuenta").textContent = hechas + " de " + CR.length + (CR.length === 1 ? " hecha" : " hechas") + (CR.length && hechas === CR.length ? " · ¡Todo listo! 🎉" : "");
+  const s2 = sigue >= 0 ? CR[sigue] : null;
+  $("crAhora").innerHTML = s2 ? `<small>⏭ Sigue</small><b>${crHora12(s2.hora)} · ${crNombre(s2.din)}</b><span>${s2.resp ? "👤 " + s2.resp : "Sin responsable"}${s2.b ? " · 🔁 Plan B: " + crNombre(s2.b) : ""}</span>`
+    : `<small>${CR.length ? "🎉 Programa completo" : "Sin actividades"}</small><b>${CR.length ? "¡Todo palomeado!" : "Agrega tu primera actividad"}</b><span>${CR.length ? "Buen trabajo, equipo." : "Usa ➕ Agregar actividad o 📋 Programa sugerido."}</span>`;
+  if (!CR.length) { lista.innerHTML = '<li class="cr-vacio">Todavía no hay actividades. Toca <b>➕ Agregar actividad</b> o carga el <b>📋 Programa sugerido</b> y ajústalo.</li>'; return; }
+  lista.innerHTML = CR.map((x, i) => {
+    const esJuego = x.din && x.din.startsWith("@") && crJuego(x.din.slice(1));
+    return `<li class="cr-item${x.hecho ? " hecho" : ""}${i === sigue ? " sigue" : ""}">
+      <button type="button" class="cr-check" data-ok="${i}" aria-label="${x.hecho ? "Desmarcar" : "Marcar como hecha"}: ${crNombre(x.din).replace(/"/g, "")}">${x.hecho ? "✓" : ""}</button>
+      <div class="cr-hora">${crHora12(x.hora)}${x.dur ? `<small>${x.dur} min</small>` : ""}</div>
+      <div class="cr-info"><div class="cr-nom">${crNombre(x.din)}${i === sigue ? '<span class="cr-tag">SIGUE</span>' : ""}${x.cambio ? '<span class="cr-tag b">PLAN B</span>' : ""}</div>
+        <div class="cr-det"><span>👤 ${x.resp ? x.resp.replace(/</g, "&lt;") : "Sin responsable"}</span>${x.b ? `<span>🔁 ${x.cambio ? "Plan original" : "Plan B"}: ${crNombre(x.b)}</span>` : ""}${x.notas ? `<span>📝 ${x.notas.replace(/</g, "&lt;")}</span>` : ""}</div></div>
+      <div class="cr-bts">${esJuego ? `<button type="button" class="abrir" data-abrir="${i}">▶ Abrir</button>` : ""}${x.b ? `<button type="button" data-b="${i}">🔁 ${x.cambio ? "Volver al original" : "Usar plan B"}</button>` : ""}<button type="button" data-ed="${i}">✏️ Editar</button></div></li>`;
+  }).join("");
+  lista.querySelectorAll("[data-ok]").forEach(b => b.onclick = () => { const x = CR[+b.dataset.ok]; x.hecho = !x.hecho; crGuardar(); crPintar(); });
+  lista.querySelectorAll("[data-b]").forEach(b => b.onclick = () => { const x = CR[+b.dataset.b]; [x.din, x.b] = [x.b, x.din]; x.cambio = !x.cambio; crGuardar(); crPintar(); });
+  lista.querySelectorAll("[data-ed]").forEach(b => b.onclick = () => crAbrirModal(+b.dataset.ed));
+  lista.querySelectorAll("[data-abrir]").forEach(b => b.onclick = () => { const x = CR[+b.dataset.abrir]; $("crono").hidden = true; abrir(x.din.slice(1)); });
+}
+function crAbrirModal(i) {
+  crEdit = i; const x = i === null ? { hora: "", din: "", resp: "", b: "", notas: "", dur: "" } : CR[i];
+  $("crmTit").textContent = i === null ? "➕ Nueva actividad" : "✏️ Editar actividad"; $("crBorrar").hidden = i === null;
+  if (i === null && CR.length) { const u = CR[CR.length - 1], m = crMin(u.hora) + (+u.dur || 15); x.hora = String(Math.floor(m / 60) % 24).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0"); }
+  $("crBTit").textContent = x.cambio ? "🔁 Plan original (lo que estaba antes del cambio)" : "🔁 Plan B (por si no se puede)";
+  $("crHora").value = x.hora || "19:00"; $("crDur").value = x.dur || ""; $("crResp").value = x.resp || ""; $("crNotas").value = x.notas || "";
+  crPoner($("crDin"), $("crDinTxt"), x.din || "@" + (CATALOGO[0] || {}).id); crPoner($("crResp2Din"), $("crB"), x.b || "");
+  $("crModal").hidden = false; setTimeout(() => $("crDin").focus(), 30);
+}
+function crCerrarModal() { $("crModal").hidden = true; }
+$("crDin").onchange = () => { $("crDinTxt").hidden = $("crDin").value !== "__otra"; if (!$("crDinTxt").hidden) $("crDinTxt").focus(); };
+$("crResp2Din").onchange = () => { $("crB").hidden = $("crResp2Din").value !== "__otra"; if (!$("crB").hidden) $("crB").focus(); };
+$("crGuardar").onclick = () => {
+  const din = crValor($("crDin"), $("crDinTxt"));
+  if (!$("crHora").value) { $("crHora").focus(); return; }
+  if (!din) { ($("crDin").value === "__otra" ? $("crDinTxt") : $("crDin")).focus(); return; }
+  const x = { hora: $("crHora").value, din: din, resp: $("crResp").value.trim(), b: crValor($("crResp2Din"), $("crB")), notas: $("crNotas").value.trim(), dur: $("crDur").value ? +$("crDur").value : "" };
+  if (crEdit === null) CR.push(Object.assign(x, { hecho: false, cambio: false })); else Object.assign(CR[crEdit], x);
+  crGuardar(); crCerrarModal(); crPintar();
+};
+$("crBorrar").onclick = () => { if (crEdit === null) return; if (!confirm("¿Quitar esta actividad del cronograma?")) return; CR.splice(crEdit, 1); crGuardar(); crCerrarModal(); crPintar(); };
+$("crCancelar").onclick = crCerrarModal;
+$("crModal").addEventListener("click", e => { if (e.target === $("crModal")) crCerrarModal(); });
+$("crAgregar").onclick = () => crAbrirModal(null);
+$("crSugerido").onclick = () => {
+  if (CR.length && !confirm("¿Reemplazar tu cronograma por el programa sugerido?")) return;
+  const P = [["19:00","Llegada y bienvenida",30,"",""],["19:30","Rezo de la posada",20,"",""],["19:50","Pedir posada (letanía)",15,"",""],["20:05","@tombola",20,"","@ruleta"],["20:25","@cien",25,"","@vf"],
+    ["20:50","Cena",60,"",""],["21:50","@villancico",20,"","@zoom"],["22:10","@regalo",15,"","@memoria"],["22:25","@pinata",20,"",""],["22:45","@subasta",30,"",""],["23:15","@catafixia",15,"",""],["23:30","Intercambio de regalos",30,"",""],["00:00","Brindis",10,"",""],["00:10","Foto grupal",10,"",""]];
+  CR = P.map(z => ({ hora: z[0], din: z[1], dur: z[2], resp: z[3], b: z[4], notas: "", hecho: false, cambio: false })); crGuardar(); crPintar();
+};
+$("crImprimir").onclick = () => window.print();
+$("crVaciar").onclick = () => { if (!CR.length || !confirm("¿Borrar todo el cronograma?")) return; CR = []; crGuardar(); crPintar(); };
+$("crPersonas").innerHTML = CR_PERSONAS.map(n => `<option value="${n}">`).join("");
+crOpciones($("crDin"), false); crOpciones($("crResp2Din"), true);
+$("btnCrono").onclick = () => { crLeer(); crPintar(); $("crono").hidden = false; $("crono").scrollTop = 0; };
+$("crVolver").onclick = () => { $("crono").hidden = true; };
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("crModal").hidden) crCerrarModal(); });
 
 /* ---------- Puntos manuales ---------- */
 let JUG = [], jugSel = null;
