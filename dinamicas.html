@@ -835,8 +835,8 @@ body.en-admin #portal,body.en-admin #esferas{display:none}
       <div class="adm-panel-cab"><span class="adm-ico" style="--c:#7a0a1c" aria-hidden="true">🧹</span><div><h2 id="pt-borrar">Borrar registros</h2><p>Deja todo limpio para empezar de nuevo</p></div></div>
       <div class="panel-app panel-pad">
         <div class="borrar-cols">
-          <div><b class="borrar-t mal">🗑️ Se borra</b><ul><li>Todos los invitados y sus apodos</li><li>Todos los puntos, escaneos y canjes</li><li>Las ventas de la subasta</li><li>Los retos asignados y sus fotos en revisión</li><li>La ronda del regalo misterioso</li><li>En los celulares: logros, avatar y sesión (se limpian solos)</li></ul></div>
-          <div><b class="borrar-t ok">✅ Se conserva</b><ul><li>Tus códigos QR (hoja QRs)</li><li>Los interruptores de la app</li><li>La lista de retos</li><li>La hora de cierre programada</li></ul></div>
+          <div><b class="borrar-t mal">🗑️ Se borra</b><ul><li>Todos los invitados y sus apodos</li><li>Todos los puntos, escaneos y canjes</li><li>Las ventas de la subasta</li><li>Los retos asignados y sus fotos en revisión</li><li>Los QR de premios que creaste en 🎟️ Generar QR</li><li>La ronda del regalo misterioso</li><li>En los celulares: logros, avatar y sesión (se limpian solos)</li></ul></div>
+          <div><b class="borrar-t ok">✅ Se conserva</b><ul><li>Tus códigos QR fijos de la hoja QRs (los escondidos)</li><li>Los interruptores de la app</li><li>La lista de retos</li><li>La hora de cierre programada</li></ul></div>
         </div>
         <label class="borrar-check"><input type="checkbox" id="borrarMural" checked> También quitar todas las fotos y cartas del mural</label>
         <button type="button" class="boton-borrar" id="btnBorrarTodo">🗑️ Borrar todos los registros</button>
@@ -1400,7 +1400,7 @@ fetch(API_POSADA + "?api=alerta").then(r => r.json()).then(o => { if (o && o.kar
 
 /* ---------- 🧹 Borrar todos los registros ---------- */
 $("btnBorrarTodo").onclick = async () => {
-  if (!confirm("¿Estás seguro de BORRAR todos los registros?\nSe borran invitados, puntos, escaneos, canjes y retos. Tus códigos QR se quedan.")) return;
+  if (!confirm("¿Estás seguro de BORRAR todos los registros?\nSe borran invitados, puntos, escaneos, canjes, retos y los QR de premios que generaste. Tus códigos QR fijos se quedan.")) return;
   if (!confirm("¿De verdad? Esto NO se puede deshacer.")) return;
   const pal = prompt("Para confirmar escribe la palabra BORRAR y presiona OK:");
   if (pal === null) return;
@@ -1414,13 +1414,14 @@ $("btnBorrarTodo").onclick = async () => {
       try {
         const SB = { url: "https://gdmbgqpnkixahyrnbnwg.supabase.co", key: "sb_publishable_yklpyDTvFTVefjXAu3XdXA_DZdtyWgR" };
         const r = await fetch(SB.url + "/rest/v1/mural_fotos?oculto=eq.false", { method: "PATCH", headers: { apikey: SB.key, "Content-Type": "application/json", Prefer: "return=minimal" }, body: JSON.stringify({ oculto: true }) });
-        mural = r.ok ? " El mural quedó vacío." : " (No se pudo vaciar el mural; hazlo desde el panel del mural.)";
-      } catch (e) { mural = " (No se pudo vaciar el mural; hazlo desde el panel del mural.)"; }
+        if (r.ok) mural = " El mural quedó vacío.";
+        else { let det = ""; try { det = (await r.text()).slice(0, 140); } catch (e2) {} mural = " ⚠️ No se pudo vaciar el mural (error " + r.status + (det ? ": " + det : "") + ")."; }
+      } catch (e) { mural = " ⚠️ No se pudo vaciar el mural (sin conexión con el mural)."; }
     }
     const c = o.borrados || {};
     $("borrarMsg").className = "aj-msg ok";
-    $("borrarMsg").textContent = "✅ Listo: se borraron " + (c.Jugadores || 0) + " invitados, " + (c.Registro || 0) + " movimientos y " + (c.Retos || 0) + " retos." + mural + " Los celulares se limpian solos en unos segundos.";
-    RETOS_ADM = []; JUG = []; jugSel = null; pintarJugadores(); pintarSel(); if (typeof pintarRetos === "function") pintarRetos(); badge("retos", "");
+    $("borrarMsg").textContent = "✅ Listo: se borraron " + (c.Jugadores || 0) + " invitados, " + (c.Registro || 0) + " movimientos y " + (c.Retos || 0) + " retos" + (c.QRpremios ? ", y " + c.QRpremios + " QR de premios" : "") + "." + mural + " Los celulares se limpian solos en unos segundos.";
+    RETOS_ADM = []; JUG = []; jugSel = null; GQ = []; try { pintarGQ(); } catch (e3) {} pintarJugadores(); pintarSel(); if (typeof pintarRetos === "function") pintarRetos(); badge("retos", "");
   } catch (e) { $("borrarMsg").className = "aj-msg err"; $("borrarMsg").textContent = e.message; }
   b.disabled = false; b.textContent = "🗑️ Borrar todos los registros";
 };
