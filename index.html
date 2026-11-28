@@ -792,6 +792,7 @@ function enviar(nombre, opcion) {
   servidor('escanear', [D.codigo, clave(), nombre || '', opcion || ''], function (o) {
     o = o || {};
     if (o.nuevaClave) guardarClave(o.nuevaClave);   // este celular adopta la cuenta recuperada
+    if (!o.pedirNombre && !o.confirmar && o.tipo) { try { history.replaceState(null, '', location.pathname); } catch (e) {} }
     if (o.pedirNombre) bienvenida(true);
     else if (o.confirmar) confirmarCuenta(nombre, o.candidatos || []);
     else resultado(o);
